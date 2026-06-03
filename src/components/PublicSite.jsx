@@ -1,14 +1,20 @@
 import { useMemo, useState } from "react";
 import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels
-} from "@headlessui/react";
+  Tabs,
+  TextField,
+  ThemeProvider,
+  createTheme
+} from "@mui/material";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -40,6 +46,81 @@ import {
   Wrench
 } from "lucide-react";
 import heroImage from "../assets/asheville-it-service-hero.webp";
+
+const publicTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#087f73",
+      dark: "#102a32",
+      contrastText: "#ffffff"
+    },
+    secondary: {
+      main: "#d98718"
+    },
+    text: {
+      primary: "#102a32",
+      secondary: "#5d6f71"
+    },
+    background: {
+      default: "#f6faf9",
+      paper: "#ffffff"
+    }
+  },
+  typography: {
+    fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+    button: {
+      fontWeight: 900,
+      textTransform: "none"
+    }
+  },
+  shape: {
+    borderRadius: 7
+  },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        disableElevation: true
+      },
+      styleOverrides: {
+        root: {
+          minHeight: 42,
+          borderRadius: 7,
+          fontWeight: 900,
+          letterSpacing: 0
+        }
+      }
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          minHeight: 42,
+          borderRadius: 7,
+          fontWeight: 890,
+          letterSpacing: 0,
+          textTransform: "none"
+        }
+      }
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: 7,
+          fontWeight: 850
+        }
+      }
+    },
+    MuiTextField: {
+      defaultProps: {
+        variant: "outlined"
+      }
+    },
+    MuiSelect: {
+      defaultProps: {
+        variant: "outlined"
+      }
+    }
+  }
+});
 
 const serviceAreas = [
   "Asheville",
@@ -250,6 +331,8 @@ const sources = [
   }
 ];
 
+const businessPlanTabLabels = ["Overview", "Services", "Market", "Roadmap", "Financials"];
+
 const reveal = {
   hidden: { opacity: 0, y: 22 },
   visible: { opacity: 1, y: 0 }
@@ -286,14 +369,14 @@ function PublicNav({ onNavigate, compact = false }) {
         </span>
       </button>
       <nav aria-label="Public navigation">
-        <a href="/#services" onClick={(event) => goSection(event, "services")}>Services</a>
-        <a href="/#managed-it" onClick={(event) => goSection(event, "managed-it")}>Managed IT</a>
-        <a href="/#service-area" onClick={(event) => goSection(event, "service-area")}>Service Area</a>
-        <button type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</button>
-        <a className="rt-nav-cta" href="/#contact" onClick={(event) => goSection(event, "contact")}>Schedule Support</a>
-        <button className="public-login rt-login-link" type="button" onClick={() => onNavigate("/login")}>
+        <Button className="rt-nav-link" component="a" href="/#services" onClick={(event) => goSection(event, "services")}>Services</Button>
+        <Button className="rt-nav-link" component="a" href="/#managed-it" onClick={(event) => goSection(event, "managed-it")}>Managed IT</Button>
+        <Button className="rt-nav-link" component="a" href="/#service-area" onClick={(event) => goSection(event, "service-area")}>Service Area</Button>
+        <Button className="rt-nav-link" type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</Button>
+        <Button className="rt-nav-cta" component="a" href="/#contact" onClick={(event) => goSection(event, "contact")}>Schedule Support</Button>
+        <Button className="public-login rt-login-link" type="button" onClick={() => onNavigate("/login")}>
           Client Login
-        </button>
+        </Button>
       </nav>
     </header>
   );
@@ -340,48 +423,61 @@ function SupportRequestForm() {
         window.location.href = mailto;
       }}
     >
-      <label>
-        Name or business
-        <input
-          value={request.name}
-          onChange={(event) => setRequest((current) => ({ ...current, name: event.target.value }))}
-          placeholder="Your name or business"
-          autoComplete="name"
-          required
-        />
-      </label>
-      <label>
-        Email or phone
-        <input
-          value={request.contact}
-          onChange={(event) => setRequest((current) => ({ ...current, contact: event.target.value }))}
-          placeholder="Best way to reach you"
-          autoComplete="email"
-          required
-        />
-      </label>
-      <label>
-        Service
-        <select
+      <TextField
+        className="rt-form-field"
+        id="support-name"
+        name="name"
+        label="Name or business"
+        value={request.name}
+        onChange={(event) => setRequest((current) => ({ ...current, name: event.target.value }))}
+        placeholder="Your name or business"
+        autoComplete="name"
+        required
+        slotProps={{ htmlInput: { "aria-label": "Name or business" } }}
+      />
+      <TextField
+        className="rt-form-field"
+        id="support-contact"
+        name="contact"
+        label="Email or phone"
+        value={request.contact}
+        onChange={(event) => setRequest((current) => ({ ...current, contact: event.target.value }))}
+        placeholder="Best way to reach you"
+        autoComplete="email"
+        required
+        slotProps={{ htmlInput: { "aria-label": "Email or phone" } }}
+      />
+      <FormControl className="rt-form-field" required>
+        <InputLabel id="support-service-label">Service</InputLabel>
+        <Select
+          labelId="support-service-label"
+          id="support-service"
+          name="service"
           value={request.service}
+          label="Service"
           onChange={(event) => setRequest((current) => ({ ...current, service: event.target.value }))}
+          inputProps={{ "aria-label": "Service" }}
         >
-          {serviceOptions.map((service) => <option key={service}>{service}</option>)}
-        </select>
-      </label>
-      <label className="full">
-        What needs fixed or set up?
-        <textarea
-          value={request.detail}
-          onChange={(event) => setRequest((current) => ({ ...current, detail: event.target.value }))}
-          placeholder="Computer, network, email, printer, new office setup, monthly support..."
-          required
-        />
-      </label>
+          {serviceOptions.map((service) => <MenuItem key={service} value={service}>{service}</MenuItem>)}
+        </Select>
+      </FormControl>
+      <TextField
+        className="rt-form-field full"
+        id="support-detail"
+        name="detail"
+        label="What needs fixed or set up?"
+        value={request.detail}
+        onChange={(event) => setRequest((current) => ({ ...current, detail: event.target.value }))}
+        placeholder="Computer, network, email, printer, new office setup, monthly support..."
+        required
+        multiline
+        minRows={4}
+        slotProps={{ htmlInput: { "aria-label": "What needs fixed or set up?" } }}
+      />
       <div className="rt-form-footer">
-        <button className="public-primary rt-primary" type="submit">
+        <Button className="public-primary rt-primary" type="submit" variant="contained">
           Prepare request <Mail size={17} />
-        </button>
+        </Button>
         <p aria-live="polite">
           {submitted ? "Your email client is opening with the support request ready." : "Most requests start with remote triage, then move on-site when needed."}
         </p>
@@ -391,50 +487,62 @@ function SupportRequestForm() {
 }
 
 function ServicesTabs() {
+  const [activeServiceTab, setActiveServiceTab] = useState(0);
+  const activeTab = serviceTabs[activeServiceTab];
+
   return (
-    <TabGroup>
-      <div className="rt-tabs-shell">
-        <TabList className="rt-tab-list" aria-label="Service categories">
-          {serviceTabs.map((item) => {
-            const Icon = item.icon;
+    <div className="rt-tabs-shell">
+      <Tabs
+        className="rt-tab-list"
+        value={activeServiceTab}
+        onChange={(_, value) => setActiveServiceTab(value)}
+        aria-label="Service categories"
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        {serviceTabs.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Tab
+              key={item.name}
+              className="rt-tab"
+              id={`service-tab-${item.name}`}
+              aria-controls={`service-panel-${item.name}`}
+              label={<span className="rt-tab-label"><Icon size={17} />{item.name}</span>}
+            />
+          );
+        })}
+      </Tabs>
+      <div
+        className="rt-tab-panel"
+        id={`service-panel-${activeTab.name}`}
+        role="tabpanel"
+        aria-labelledby={`service-tab-${activeTab.name}`}
+      >
+        <p>{activeTab.intro}</p>
+        <div className="rt-service-grid">
+          {activeTab.services.map((service) => {
+            const Icon = service.icon;
             return (
-              <Tab key={item.name} className={({ selected }) => `rt-tab ${selected ? "active" : ""}`}>
-                <Icon size={17} />
-                {item.name}
-              </Tab>
+              <motion.article
+                className="rt-service-card"
+                key={service.title}
+                variants={reveal}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.42 }}
+              >
+                <span><Icon size={21} /></span>
+                <h3>{service.title}</h3>
+                <p>{service.detail}</p>
+                <a href="#contact">Request this <ChevronRight size={15} /></a>
+              </motion.article>
             );
           })}
-        </TabList>
-        <TabPanels>
-          {serviceTabs.map((tab) => (
-            <TabPanel key={tab.name} className="rt-tab-panel">
-              <p>{tab.intro}</p>
-              <div className="rt-service-grid">
-                {tab.services.map((service) => {
-                  const Icon = service.icon;
-                  return (
-                    <motion.article
-                      className="rt-service-card"
-                      key={service.title}
-                      variants={reveal}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true, amount: 0.25 }}
-                      transition={{ duration: 0.42 }}
-                    >
-                      <span><Icon size={21} /></span>
-                      <h3>{service.title}</h3>
-                      <p>{service.detail}</p>
-                      <a href="#contact">Request this <ChevronRight size={15} /></a>
-                    </motion.article>
-                  );
-                })}
-              </div>
-            </TabPanel>
-          ))}
-        </TabPanels>
+        </div>
       </div>
-    </TabGroup>
+    </div>
   );
 }
 
@@ -470,17 +578,12 @@ function FaqSection() {
   return (
     <div className="rt-faq-list">
       {faqs.map((item) => (
-        <Disclosure as="div" className="rt-faq-item" key={item.question}>
-          {({ open }) => (
-            <>
-              <DisclosureButton className="rt-faq-button">
-                <span>{item.question}</span>
-                <ChevronDown size={18} className={open ? "open" : ""} />
-              </DisclosureButton>
-              <DisclosurePanel className="rt-faq-panel">{item.answer}</DisclosurePanel>
-            </>
-          )}
-        </Disclosure>
+        <Accordion className="rt-faq-item" key={item.question} disableGutters elevation={0}>
+          <AccordionSummary className="rt-faq-button" expandIcon={<ChevronDown size={18} />}>
+            {item.question}
+          </AccordionSummary>
+          <AccordionDetails className="rt-faq-panel">{item.answer}</AccordionDetails>
+        </Accordion>
       ))}
     </div>
   );
@@ -488,8 +591,9 @@ function FaqSection() {
 
 export function PublicLanding({ onNavigate }) {
   return (
-    <div className="public-site rt-public-site">
-      <PublicNav onNavigate={onNavigate} />
+    <ThemeProvider theme={publicTheme}>
+      <div className="public-site rt-public-site">
+        <PublicNav onNavigate={onNavigate} />
 
       <main>
         <section className="public-hero rt-hero" style={{ "--hero-image": `url(${heroImage})` }}>
@@ -505,17 +609,17 @@ export function PublicLanding({ onNavigate }) {
                 Remote help, on-site repairs, business setups, and monthly IT care for homes and small teams that need technology to work without drama.
               </p>
               <div className="hero-actions rt-hero-actions">
-                <a className="public-primary rt-primary" href="#contact">
+                <Button className="public-primary rt-primary" component="a" href="#contact" variant="contained">
                   Schedule Support <ArrowRight size={17} />
-                </a>
-                <a className="public-secondary rt-secondary" href="#plans">
+                </Button>
+                <Button className="public-secondary rt-secondary" component="a" href="#plans" variant="outlined">
                   See Plans
-                </a>
+                </Button>
               </div>
               <div className="rt-hero-proof" aria-label="Support highlights">
                 {proofPoints.map((item) => {
                   const Icon = item.icon;
-                  return <span key={item.label}><Icon size={16} />{item.label}</span>;
+                  return <Chip key={item.label} icon={<Icon size={16} />} label={item.label} />;
                 })}
               </div>
             </motion.div>
@@ -529,7 +633,7 @@ export function PublicLanding({ onNavigate }) {
             "Business setups",
             "Monthly IT support",
             "Urgent call-ins"
-          ].map((item) => <span key={item}>{item}</span>)}
+          ].map((item) => <Chip key={item} label={item} />)}
         </section>
 
         <motion.section
@@ -657,12 +761,12 @@ export function PublicLanding({ onNavigate }) {
             >
               Remote help can start quickly. On-site availability is prioritized around Asheville and nearby WNC communities.
             </SectionHeading>
-            <button className="public-primary rt-primary" type="button" onClick={() => scrollToSection("contact", onNavigate)}>
+            <Button className="public-primary rt-primary" type="button" onClick={() => scrollToSection("contact", onNavigate)} variant="contained">
               Request local support <ArrowRight size={17} />
-            </button>
+            </Button>
           </div>
           <div className="rt-area-grid">
-            {serviceAreas.map((area) => <span key={area}><MapPin size={14} />{area}</span>)}
+            {serviceAreas.map((area) => <Chip key={area} icon={<MapPin size={14} />} label={area} />)}
           </div>
         </section>
 
@@ -675,9 +779,9 @@ export function PublicLanding({ onNavigate }) {
               >
                 The launch plan focuses on repairs and setup work first, then converts repeat clients into recurring support agreements.
               </SectionHeading>
-              <button className="public-secondary rt-secondary" type="button" onClick={() => onNavigate("/business-plan")}>
+              <Button className="public-secondary rt-secondary" type="button" onClick={() => onNavigate("/business-plan")} variant="outlined">
                 Open business plan <FileText size={17} />
-              </button>
+              </Button>
             </div>
             <div className="rt-preview-grid">
               {businessPlanSections.map((section) => {
@@ -703,24 +807,28 @@ export function PublicLanding({ onNavigate }) {
               A clear request helps triage the job, prepare for the first session, and decide whether remote or on-site support is the right start.
             </SectionHeading>
             <div className="rt-contact-methods">
-              <a href="mailto:support@robbinstechnologies.com"><Mail size={16} /> support@robbinstechnologies.com</a>
-              <button type="button" onClick={() => onNavigate("/login")}><Lock size={16} /> Client dashboard</button>
+              <Button component="a" href="mailto:support@robbinstechnologies.com"><Mail size={16} /> support@robbinstechnologies.com</Button>
+              <Button type="button" onClick={() => onNavigate("/login")}><Lock size={16} /> Client dashboard</Button>
             </div>
             <FaqSection />
           </div>
           <SupportRequestForm />
         </section>
       </main>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 }
 
 export function BusinessPlanPage({ onNavigate }) {
+  const [activeBusinessTab, setActiveBusinessTab] = useState(0);
+
   return (
-    <div className="public-site rt-public-site business-plan-site">
-      <PublicNav onNavigate={onNavigate} compact />
-      <main className="business-plan-page rt-business-page">
-        <section className="plan-hero rt-plan-hero">
+    <ThemeProvider theme={publicTheme}>
+      <div className="public-site rt-public-site business-plan-site">
+        <PublicNav onNavigate={onNavigate} compact />
+        <main className="business-plan-page rt-business-page">
+          <section className="plan-hero rt-plan-hero">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -731,30 +839,36 @@ export function BusinessPlanPage({ onNavigate }) {
               A focused launch plan for IT repairs, remote support, on-site service, business setups, monthly support, and urgent call-ins across Asheville and northwestern North Carolina.
             </p>
             <div className="rt-plan-actions">
-              <button className="public-primary rt-primary" type="button" onClick={() => onNavigate("/")}>
+              <Button className="public-primary rt-primary" type="button" onClick={() => onNavigate("/")} variant="contained">
                 Back to site <ArrowRight size={17} />
-              </button>
-              <a className="public-secondary rt-secondary" href="mailto:support@robbinstechnologies.com">
+              </Button>
+              <Button className="public-secondary rt-secondary" component="a" href="mailto:support@robbinstechnologies.com" variant="outlined">
                 Contact <Mail size={17} />
-              </a>
+              </Button>
             </div>
           </motion.div>
           <div className="plan-scorecard rt-plan-scorecard">
-            <span><Home size={16} /> Homes and freelancers</span>
-            <span><Building2 size={16} /> Small businesses</span>
-            <span><Clock3 size={16} /> Recurring support</span>
-            <span><MapPin size={16} /> WNC coverage</span>
+            <Chip icon={<Home size={16} />} label="Homes and freelancers" />
+            <Chip icon={<Building2 size={16} />} label="Small businesses" />
+            <Chip icon={<Clock3 size={16} />} label="Recurring support" />
+            <Chip icon={<MapPin size={16} />} label="WNC coverage" />
           </div>
         </section>
 
-        <TabGroup>
-          <TabList className="rt-business-tabs" aria-label="Business plan sections">
-            {["Overview", "Services", "Market", "Roadmap", "Financials"].map((tab) => (
-              <Tab key={tab} className={({ selected }) => `rt-tab ${selected ? "active" : ""}`}>{tab}</Tab>
+          <Tabs
+            className="rt-business-tabs"
+            value={activeBusinessTab}
+            onChange={(_, value) => setActiveBusinessTab(value)}
+            aria-label="Business plan sections"
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            {businessPlanTabLabels.map((tab) => (
+              <Tab key={tab} className="rt-tab" label={tab} />
             ))}
-          </TabList>
-          <TabPanels>
-            <TabPanel className="rt-business-panel">
+          </Tabs>
+          <div className="rt-business-panel" role="tabpanel" aria-label={businessPlanTabLabels[activeBusinessTab]}>
+            {activeBusinessTab === 0 ? (
               <div className="plan-section-grid rt-plan-section-grid">
                 {businessPlanSections.map((section) => {
                   const Icon = section.icon;
@@ -767,8 +881,8 @@ export function BusinessPlanPage({ onNavigate }) {
                   );
                 })}
               </div>
-            </TabPanel>
-            <TabPanel className="rt-business-panel">
+            ) : null}
+            {activeBusinessTab === 1 ? (
               <div className="rt-plan-list-grid">
                 <article>
                   <h2>Service Menu</h2>
@@ -790,8 +904,8 @@ export function BusinessPlanPage({ onNavigate }) {
                   </ul>
                 </article>
               </div>
-            </TabPanel>
-            <TabPanel className="rt-business-panel">
+            ) : null}
+            {activeBusinessTab === 2 ? (
               <div className="rt-plan-list-grid">
                 <article>
                   <h2>Market Strategy</h2>
@@ -812,28 +926,28 @@ export function BusinessPlanPage({ onNavigate }) {
                   </ul>
                 </article>
               </div>
-            </TabPanel>
-            <TabPanel className="rt-business-panel">
+            ) : null}
+            {activeBusinessTab === 3 ? (
               <ol className="roadmap-list rt-roadmap-list">
                 {roadmap.map((item) => <li key={item}>{item}</li>)}
               </ol>
-            </TabPanel>
-            <TabPanel className="rt-business-panel">
+            ) : null}
+            {activeBusinessTab === 4 ? (
               <div className="financial-grid rt-financial-grid">
                 <article><strong>$95-$125/hr</strong><span>Core hourly support range</span></article>
                 <article><strong>$450+</strong><span>Starter setup projects</span></article>
                 <article><strong>$599/mo</strong><span>Small business care anchor plan</span></article>
                 <article><strong>10</strong><span>Initial monthly clients target</span></article>
               </div>
-            </TabPanel>
-          </TabPanels>
-        </TabGroup>
+            ) : null}
+          </div>
 
-        <section className="source-strip rt-source-strip">
-          <h2>Local Planning Sources</h2>
-          {sources.map((source) => <a key={source.href} href={source.href} target="_blank" rel="noreferrer">{source.label}</a>)}
-        </section>
-      </main>
-    </div>
+          <section className="source-strip rt-source-strip">
+            <h2>Local Planning Sources</h2>
+            {sources.map((source) => <a key={source.href} href={source.href} target="_blank" rel="noreferrer">{source.label}</a>)}
+          </section>
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }

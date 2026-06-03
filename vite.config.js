@@ -581,6 +581,17 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
-    plugins: [react(), cloudflareApiPlugin(env)]
+    plugins: [react(), cloudflareApiPlugin(env)],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            mui: ["@mui/material", "@emotion/react", "@emotion/styled"],
+            motion: ["framer-motion"],
+            icons: ["lucide-react"]
+          }
+        }
+      }
+    }
   };
 });
