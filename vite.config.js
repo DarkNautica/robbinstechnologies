@@ -1,4 +1,5 @@
 import react from "@vitejs/plugin-react";
+import { createHmac } from "node:crypto";
 import { defineConfig, loadEnv } from "vite";
 
 const CLOUDFLARE_API_BASE = "https://api.cloudflare.com/client/v4";
@@ -14,6 +15,117 @@ function sendJson(res, statusCode, payload) {
   res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(payload));
+}
+
+function readAuthConfig(env) {
+  return {
+    username: env.AUTH_USERNAME || "operator",
+    password: env.AUTH_PASSWORD || "",
+    secret: env.AUTH_SESSION_SECRET || env.CLOUDFLARE_API_TOKEN || "local-session-secret"
+  };
+}
+
+function parseCookies(req) {
+  return Object.fromEntries(
+    (req.headers.cookie || "")
+      .split(";")
+      .map((cookie) => cookie.trim())
+      .filter(Boolean)
+      .map((cookie) => {
+        const index = cookie.indexOf("=");
+        return [cookie.slice(0, index), decodeURIComponent(cookie.slice(index + 1))];
+      })
+  );
+}
+
+function signLocal(payload, secret) {
+  return createHmac("sha256", secret).update(payload).digest("base64url");
+}
+
+function makeLocalSession(env, user) {
+  const config = readAuthConfig(env);
+  const payload = Buffer.from(JSON.stringify({
+    sub: user,
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
+  })).toString("base64url");
+  return `${payload}.${signLocal(payload, config.secret)}`;
+}
+
+function readLocalSession(req, env) {
+  const token = parseCookies(req).mc_session;
+  if (!token || !token.includes(".")) return null;
+  const [payload, signature] = token.split(".");
+  const config = readAuthConfig(env);
+  if (signature !== signLocal(payload, config.secret)) return null;
+  try {
+    const session = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+    if (!session.exp || session.exp < Math.floor(Date.now() / 1000)) return null;
+    return { user: session.sub || config.username, expiresAt: session.exp };
+  } catch {
+    return null;
+  }
+}
+
+function readJsonBody(req) {
+  return new Promise((resolve) => {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk;
+    });
+    req.on("end", () => {
+      try {
+        resolve(JSON.parse(body || "{}"));
+      } catch {
+        resolve({});
+      }
+    });
+    req.on("error", () => resolve({}));
+  });
+}
+
+async function handleAuthRequest(req, res, next, env) {
+  const url = new URL(req.url || "/", "http://localhost");
+  if (!url.pathname.startsWith("/api/auth")) {
+    next();
+    return;
+  }
+
+  const config = readAuthConfig(env);
+
+  if (url.pathname === "/api/auth/me" && req.method === "GET") {
+    const session = readLocalSession(req, env);
+    if (!session) {
+      sendJson(res, 200, { authenticated: false });
+      return;
+    }
+    sendJson(res, 200, { authenticated: true, user: session.user, expiresAt: session.expiresAt });
+    return;
+  }
+
+  if (url.pathname === "/api/auth/login" && req.method === "POST") {
+    const body = await readJsonBody(req);
+    const username = String(body.username || "").trim();
+    const password = String(body.password || "");
+    if (!config.password) {
+      sendJson(res, 503, { ok: false, message: "AUTH_PASSWORD is not configured." });
+      return;
+    }
+    if (username !== config.username || password !== config.password) {
+      sendJson(res, 401, { ok: false, message: "Invalid credentials." });
+      return;
+    }
+    res.setHeader("Set-Cookie", `mc_session=${makeLocalSession(env, config.username)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${60 * 60 * 24 * 7}`);
+    sendJson(res, 200, { ok: true, user: config.username });
+    return;
+  }
+
+  if (url.pathname === "/api/auth/logout" && req.method === "POST") {
+    res.setHeader("Set-Cookie", "mc_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0");
+    sendJson(res, 200, { ok: true });
+    return;
+  }
+
+  sendJson(res, 404, { ok: false, message: "Unknown auth endpoint." });
 }
 
 function maskAccountId(accountId) {
@@ -382,6 +494,11 @@ async function handleCloudflareRequest(req, res, next, env) {
     return;
   }
 
+  if (!readLocalSession(req, env)) {
+    sendJson(res, 401, { ok: false, message: "Authentication required." });
+    return;
+  }
+
   const config = readCloudflareConfig(env);
   if (!config.accountId || !config.token) {
     sendJson(res, 200, {
@@ -443,10 +560,16 @@ function cloudflareApiPlugin(env) {
     name: "master-control-cloudflare-api",
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
+        handleAuthRequest(req, res, next, env);
+      });
+      server.middlewares.use((req, res, next) => {
         handleCloudflareRequest(req, res, next, env);
       });
     },
     configurePreviewServer(server) {
+      server.middlewares.use((req, res, next) => {
+        handleAuthRequest(req, res, next, env);
+      });
       server.middlewares.use((req, res, next) => {
         handleCloudflareRequest(req, res, next, env);
       });

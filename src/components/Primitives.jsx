@@ -1,11 +1,18 @@
 import { ArrowUpRight, CheckCircle2, CircleAlert, CircleDot, CircleSlash, Clock3 } from "lucide-react";
 
+export function emitPanelAction(title, action) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent("master-control:panel-action", {
+    detail: { title, action }
+  }));
+}
+
 export function Panel({ title, action, children, className = "" }) {
   return (
     <section className={`panel ${className}`}>
       <div className="panel-header">
         <h2>{title}</h2>
-        {action ? <button className="text-action" type="button">{action}</button> : null}
+        {action ? <button className="text-action" type="button" onClick={() => emitPanelAction(title, action)}>{action}</button> : null}
       </div>
       {children}
     </section>
@@ -38,7 +45,7 @@ export function MetricBlock({ value, label, link, spark }) {
       <strong>{value}</strong>
       <span>{label}</span>
       {spark}
-      <button className="metric-link" type="button">
+      <button className="metric-link" type="button" onClick={() => emitPanelAction(label, link)}>
         {link}
         <ArrowUpRight size={14} strokeWidth={2.2} />
       </button>

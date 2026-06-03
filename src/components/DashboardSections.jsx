@@ -9,7 +9,7 @@ import {
   X
 } from "lucide-react";
 import { AreaChart, Sparkline } from "./Charts";
-import { AlertGlyph, EmptyState, MetricBlock, Panel, SmallStat, StatusDot, StatusPill, TimeBadge } from "./Primitives";
+import { AlertGlyph, emitPanelAction, EmptyState, MetricBlock, Panel, SmallStat, StatusDot, StatusPill, TimeBadge } from "./Primitives";
 
 function formatPercent(value) {
   if (typeof value !== "number") return "n/a";
@@ -47,9 +47,9 @@ export function HealthOverview({ sites, overallUptime, incidentsCount, alertsCou
       <div className="metrics-grid">
         <MetricBlock value={sites.length} label="Sites" link="View all" />
         <MetricBlock value={sites.length ? formatPercent(overallUptime) : "n/a"} label="Live Health" link="View probes" spark={<Sparkline data={responseSeries} />} />
-        <MetricBlock value={sites.length} label="Active Monitors" link="View monitors" />
-        <MetricBlock value={incidentsCount} label="Major Incidents" link="View incidents" />
-        <MetricBlock value={alertsCount} label="Active Alerts" link="View alerts" />
+        <MetricBlock value={sites.length} label="Monitors" link="View monitors" />
+        <MetricBlock value={incidentsCount} label="Incidents" link="View incidents" />
+        <MetricBlock value={alertsCount} label="Alerts" link="View alerts" />
       </div>
 
       <div className="health-strip" aria-label="Live zone status sample">
@@ -144,7 +144,15 @@ export function MonitorTable({ sites, filter, onFilterChange, query, onQueryChan
                 <td>{site.location} <span className="flag-code">{site.flag}</span></td>
                 <td>{site.lastCheck}</td>
                 <td>
-                  <button className="row-action" type="button" aria-label={`Open ${site.name} actions`}>
+                  <button
+                    className="row-action"
+                    type="button"
+                    aria-label={`Open ${site.name} actions`}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      emitPanelAction(site.name, "Site actions");
+                    }}
+                  >
                     <MoreVertical size={16} />
                   </button>
                 </td>
@@ -155,7 +163,7 @@ export function MonitorTable({ sites, filter, onFilterChange, query, onQueryChan
       </div>
 
       {filteredSites.length ? (
-        <button className="panel-footer-action" type="button">View all monitors</button>
+        <button className="panel-footer-action" type="button" onClick={() => emitPanelAction("Live Site Monitors", "View all monitors")}>View all monitors</button>
       ) : (
         <EmptyState title="No monitors loaded" detail="Cloudflare zones and local probes will appear here after the API responds." />
       )}
@@ -196,10 +204,10 @@ export function CloudflareOverview({ cloudflare }) {
           <span>Put your API token in .env.local and restart the dev server.</span>
         </div>
       ) : null}
-      <button className="panel-footer-action" type="button">
+      <a className="panel-footer-action" href="https://dash.cloudflare.com/" target="_blank" rel="noreferrer">
         Open Cloudflare Dashboard
         <ExternalLink size={14} strokeWidth={2.2} />
-      </button>
+      </a>
     </Panel>
   );
 }
@@ -226,7 +234,7 @@ export function AlertQueue({ alerts, cloudflare }) {
           detail={cloudflare?.ok ? "Token, zones, SSL, DNS, and live probes look clear." : cloudflare?.message || "Waiting for Cloudflare API data."}
         />
       )}
-      <button className="panel-footer-action" type="button">{alerts.length ? "View all alerts" : "Refresh alerts"}</button>
+      <button className="panel-footer-action" type="button" onClick={() => emitPanelAction("Alert Queue", alerts.length ? "View all alerts" : "Refresh alerts")}>{alerts.length ? "View all alerts" : "Refresh alerts"}</button>
     </Panel>
   );
 }
@@ -250,7 +258,7 @@ export function RecentIncidents({ incidents }) {
       ) : (
         <EmptyState title="No live incidents" detail="No zone, SSL, DNS, token, or probe incidents are active." />
       )}
-      <button className="panel-footer-action" type="button">{incidents.length ? "View all incidents" : "Refresh incidents"}</button>
+      <button className="panel-footer-action" type="button" onClick={() => emitPanelAction("Recent Incidents", incidents.length ? "View all incidents" : "Refresh incidents")}>{incidents.length ? "View all incidents" : "Refresh incidents"}</button>
     </Panel>
   );
 }
