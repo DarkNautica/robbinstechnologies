@@ -137,10 +137,62 @@ const serviceAreas = [
 ];
 
 const proofPoints = [
-  { label: "Remote and on-site help", icon: Laptop },
-  { label: "Home and business repairs", icon: Wrench },
-  { label: "Monthly IT care", icon: ShieldCheck },
-  { label: "Plain-language support", icon: BadgeCheck }
+  { label: "Remote-first triage", icon: Laptop },
+  { label: "On-site when needed", icon: Wrench },
+  { label: "Small business ready", icon: Building2 },
+  { label: "Monthly care available", icon: ShieldCheck }
+];
+
+const trustSignals = [
+  { value: "Asheville", label: "local WNC base" },
+  { value: "Remote + on-site", label: "support model" },
+  { value: "Homes + teams", label: "client fit" },
+  { value: "Plain English", label: "no runaround" }
+];
+
+const servicePaths = [
+  {
+    title: "Home Support",
+    icon: Home,
+    audience: "For households, freelancers, and remote workers",
+    summary: "Computer cleanup, Wi-Fi, printers, email, backups, and everyday tech problems handled clearly.",
+    includes: ["Slow computer repair", "Printer and Wi-Fi help", "Account and email setup"],
+    action: "Fix home tech"
+  },
+  {
+    title: "Business Setup",
+    icon: Building2,
+    audience: "For new offices, new hires, and small teams",
+    summary: "Workstations, Microsoft 365 or Google Workspace, shared files, printers, routers, and onboarding.",
+    includes: ["New device rollout", "Email and file sharing", "Network and printer setup"],
+    action: "Plan a setup"
+  },
+  {
+    title: "Managed IT",
+    icon: ShieldCheck,
+    audience: "For teams that need ongoing support",
+    summary: "Monthly care, priority response, health checks, vendor coordination, security basics, and documentation.",
+    includes: ["Priority support lane", "Monthly health checks", "Backup and security review"],
+    action: "See monthly care"
+  }
+];
+
+const differencePoints = [
+  {
+    title: "Local enough to show up",
+    detail: "Remote support starts fast, and on-site service is available around Asheville and nearby WNC communities.",
+    icon: MapPin
+  },
+  {
+    title: "Clear enough to trust",
+    detail: "You get practical notes, recommendations, and next steps without jargon or mystery invoices.",
+    icon: ClipboardList
+  },
+  {
+    title: "Structured enough for business",
+    detail: "Setup and monthly support use checklists, inventories, and repeatable support lanes.",
+    icon: Server
+  }
 ];
 
 const serviceTabs = [
@@ -347,8 +399,14 @@ function scrollToSection(id, onNavigate) {
 
 function BrandMark() {
   return (
-    <span className="brand-mark rt-brand-mark" aria-hidden="true">
-      <span>RT</span>
+    <span className="brand-mark rt-brand-mark rt-mountain-mark" aria-hidden="true">
+      <svg viewBox="0 0 64 64" role="img">
+        <path className="mark-shield" d="M32 5 56 17v17c0 15-9.8 23.4-24 29C17.8 57.4 8 49 8 34V17L32 5Z" />
+        <path className="mark-mountain left" d="M13 42 27 20l9 15 5-8 11 15H13Z" />
+        <path className="mark-mountain right" d="M25 42 36 26l12 16H25Z" />
+        <path className="mark-circuit" d="M19 47h10m6 0h10M32 20v15m0 12v7" />
+        <circle className="mark-node" cx="32" cy="35" r="3" />
+      </svg>
     </span>
   );
 }
@@ -369,7 +427,7 @@ function PublicNav({ onNavigate, compact = false }) {
         </span>
       </button>
       <nav aria-label="Public navigation">
-        <Button className="rt-nav-link" component="a" href="/#services" onClick={(event) => goSection(event, "services")}>Services</Button>
+        <Button className="rt-nav-link" component="a" href="/#paths" onClick={(event) => goSection(event, "paths")}>Services</Button>
         <Button className="rt-nav-link" component="a" href="/#managed-it" onClick={(event) => goSection(event, "managed-it")}>Managed IT</Button>
         <Button className="rt-nav-link" component="a" href="/#service-area" onClick={(event) => goSection(event, "service-area")}>Service Area</Button>
         <Button className="rt-nav-link" type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</Button>
@@ -589,232 +647,331 @@ function FaqSection() {
   );
 }
 
+function ServicePathCards() {
+  return (
+    <div className="rt-path-grid">
+      {servicePaths.map((path, index) => {
+        const Icon = path.icon;
+        return (
+          <motion.article
+            className={`rt-path-card path-${index + 1}`}
+            key={path.title}
+            variants={reveal}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.24 }}
+            transition={{ delay: index * 0.05, duration: 0.44 }}
+          >
+            <div className="rt-path-card-top">
+              <span className="rt-path-icon"><Icon size={24} /></span>
+              <div>
+                <h3>{path.title}</h3>
+                <small>{path.audience}</small>
+              </div>
+            </div>
+            <p>{path.summary}</p>
+            <div className="rt-path-list">
+              {path.includes.map((item) => <span key={item}><Check size={15} />{item}</span>)}
+            </div>
+            <Button className="rt-path-button" component="a" href="#contact">
+              {path.action} <ArrowRight size={16} />
+            </Button>
+          </motion.article>
+        );
+      })}
+    </div>
+  );
+}
+
+function TrustStrip() {
+  return (
+    <section className="rt-trust-strip" aria-label="Robbins Technologies credibility">
+      {trustSignals.map((signal) => (
+        <div key={signal.value}>
+          <strong>{signal.value}</strong>
+          <span>{signal.label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function ServiceAreaMap() {
+  return (
+    <div className="rt-map-panel" aria-label="Asheville and Western North Carolina service coverage">
+      <div className="rt-map-rings" aria-hidden="true">
+        <span className="ring ring-one" />
+        <span className="ring ring-two" />
+        <span className="ring ring-three" />
+      </div>
+      <div className="rt-map-pin primary"><MapPin size={16} /> Asheville hub</div>
+      <div className="rt-map-pin north">Weaverville</div>
+      <div className="rt-map-pin east">Black Mountain</div>
+      <div className="rt-map-pin south">Hendersonville</div>
+      <div className="rt-map-pin west">Waynesville</div>
+    </div>
+  );
+}
+
+function PublicFooter({ onNavigate }) {
+  return (
+    <footer className="rt-footer">
+      <div className="rt-footer-brand">
+        <BrandMark />
+        <div>
+          <strong>Robbins Technologies</strong>
+          <span>IT support for Asheville and Western North Carolina.</span>
+        </div>
+      </div>
+      <div className="rt-footer-links">
+        <a href="#paths">Services</a>
+        <a href="#plans">Plans</a>
+        <a href="#service-area">Service Area</a>
+        <button type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</button>
+        <button type="button" onClick={() => onNavigate("/login")}>Client Login</button>
+      </div>
+    </footer>
+  );
+}
+
 export function PublicLanding({ onNavigate }) {
   return (
     <ThemeProvider theme={publicTheme}>
       <div className="public-site rt-public-site">
         <PublicNav onNavigate={onNavigate} />
 
-      <main>
-        <section className="public-hero rt-hero" style={{ "--hero-image": `url(${heroImage})` }}>
-          <div className="rt-hero-inner">
-            <motion.div
-              className="rt-hero-copy"
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.52 }}
-            >
-              <h1>IT Support in Asheville & Western North Carolina</h1>
-              <p>
-                Remote help, on-site repairs, business setups, and monthly IT care for homes and small teams that need technology to work without drama.
-              </p>
-              <div className="hero-actions rt-hero-actions">
-                <Button className="public-primary rt-primary" component="a" href="#contact" variant="contained">
-                  Schedule Support <ArrowRight size={17} />
-                </Button>
-                <Button className="public-secondary rt-secondary" component="a" href="#plans" variant="outlined">
-                  See Plans
-                </Button>
-              </div>
-              <div className="rt-hero-proof" aria-label="Support highlights">
+        <main>
+          <section className="public-hero rt-hero rt-hero-v2" style={{ "--hero-image": `url(${heroImage})` }}>
+            <div className="rt-hero-inner">
+              <motion.div
+                className="rt-hero-copy"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.52 }}
+              >
+                <h1>Asheville IT Support Without the Runaround</h1>
+                <p>
+                  Remote help, on-site repair, business setup, and monthly IT care for Western North Carolina homes and small teams.
+                </p>
+                <div className="hero-actions rt-hero-actions">
+                  <Button className="public-primary rt-primary" component="a" href="#contact" variant="contained">
+                    Schedule Support <ArrowRight size={17} />
+                  </Button>
+                  <Button className="public-secondary rt-secondary" component="a" href="#paths" variant="outlined">
+                    View Services
+                  </Button>
+                </div>
+              </motion.div>
+
+              <motion.aside
+                className="rt-hero-card"
+                initial={{ opacity: 0, x: 22 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.12, duration: 0.52 }}
+                aria-label="Robbins Technologies service routes"
+              >
+                <div className="rt-hero-card-logo">
+                  <BrandMark />
+                  <div>
+                    <strong>Robbins Technologies</strong>
+                    <span>Serving Asheville & WNC</span>
+                  </div>
+                </div>
                 {proofPoints.map((item) => {
                   const Icon = item.icon;
-                  return <Chip key={item.label} icon={<Icon size={16} />} label={item.label} />;
+                  return (
+                    <div className="rt-hero-route" key={item.label}>
+                      <Icon size={18} />
+                      <span>{item.label}</span>
+                    </div>
+                  );
                 })}
-              </div>
-            </motion.div>
-          </div>
-        </section>
+              </motion.aside>
+            </div>
+          </section>
 
-        <section className="rt-client-strip" aria-label="Primary services">
-          {[
-            "Computer repair",
-            "Remote support",
-            "Business setups",
-            "Monthly IT support",
-            "Urgent call-ins"
-          ].map((item) => <Chip key={item} label={item} />)}
-        </section>
+          <TrustStrip />
 
-        <motion.section
-          className="public-band rt-section rt-services-section"
-          id="services"
-          variants={reveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.45 }}
-        >
-          <SectionHeading
-            kicker="Services"
-            title="A practical IT help desk for homes, shops, clinics, offices, and local teams."
-          >
-            Choose the support lane that matches the problem. The site is designed so clients can quickly understand what to request and how the work starts.
-          </SectionHeading>
-          <ServicesTabs />
-        </motion.section>
-
-        <section className="public-band rt-section rt-split-section" id="managed-it">
-          <motion.div
-            variants={reveal}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.44 }}
-          >
+          <section className="public-band rt-section rt-path-section" id="paths">
             <SectionHeading
-              kicker="Managed IT"
-              title="Keep the office moving with recurring care instead of last-minute scrambling."
+              kicker="Services"
+              title="Pick the support path that matches the problem."
             >
-              Monthly support gives small businesses a steady point of contact for devices, networks, accounts, backups, vendor coordination, and sensible security basics.
+              Robbins Technologies is organized around the way local clients actually ask for help: quick fixes, setup projects, and ongoing care.
             </SectionHeading>
-            <div className="rt-check-grid">
-              {[
-                "Microsoft 365 or Google Workspace setup",
-                "Router, Wi-Fi, and printer support",
-                "New hire device onboarding",
-                "Backup and security reviews",
-                "Vendor coordination and documentation",
-                "Priority support for active clients"
-              ].map((item) => <span key={item}><Check size={15} />{item}</span>)}
+            <ServicePathCards />
+          </section>
+
+          <section className="rt-emergency-band" id="services">
+            <div>
+              <PhoneCall size={24} />
+              <h2>Something broke today?</h2>
+              <p>Start with remote triage. If the fix needs hands-on work, schedule an on-site visit around Asheville and nearby WNC communities.</p>
             </div>
-          </motion.div>
-
-          <motion.aside
-            className="rt-operations-panel"
-            variants={reveal}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ delay: 0.08, duration: 0.44 }}
-            aria-label="Managed IT checklist"
-          >
-            <div className="rt-ops-header">
-              <Router size={24} />
-              <div>
-                <strong>Monthly care rhythm</strong>
-                <span>Simple, visible, and useful</span>
-              </div>
-            </div>
-            {[
-              ["Device inventory", "Known workstations and priorities"],
-              ["Security basics", "Accounts, updates, and backups reviewed"],
-              ["Support notes", "Plain-language history for future fixes"],
-              ["Quarterly roadmap", "Better planning for devices and services"]
-            ].map(([title, detail]) => (
-              <div className="rt-ops-row" key={title}>
-                <span className="rt-status-dot" />
-                <div>
-                  <strong>{title}</strong>
-                  <small>{detail}</small>
-                </div>
-              </div>
-            ))}
-          </motion.aside>
-        </section>
-
-        <section className="rt-process-band">
-          <div className="public-band rt-section">
-            <SectionHeading
-              kicker="How it works"
-              title="A support process built for clarity from the first message."
-            />
-            <div className="rt-process-grid">
-              {processSteps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <motion.article
-                    className="rt-process-step"
-                    key={step.title}
-                    variants={reveal}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.25 }}
-                    transition={{ delay: index * 0.04, duration: 0.4 }}
-                  >
-                    <span>{index + 1}</span>
-                    <Icon size={22} />
-                    <h3>{step.title}</h3>
-                    <p>{step.detail}</p>
-                  </motion.article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="public-band rt-section" id="plans">
-          <SectionHeading
-            kicker="Plans"
-            title="Transparent starting points for one-time fixes and ongoing support."
-          >
-            Pricing is intentionally simple at launch. Larger projects can be scoped after the first conversation.
-          </SectionHeading>
-          <PlansSection />
-        </section>
-
-        <section className="public-band rt-section rt-service-area" id="service-area">
-          <div>
-            <SectionHeading
-              kicker="Service area"
-              title="Based in Asheville, built for Western and northwestern North Carolina."
-            >
-              Remote help can start quickly. On-site availability is prioritized around Asheville and nearby WNC communities.
-            </SectionHeading>
-            <Button className="public-primary rt-primary" type="button" onClick={() => scrollToSection("contact", onNavigate)} variant="contained">
-              Request local support <ArrowRight size={17} />
+            <Button className="rt-emergency-button" component="a" href="#contact">
+              Start a support request <ArrowRight size={17} />
             </Button>
-          </div>
-          <div className="rt-area-grid">
-            {serviceAreas.map((area) => <Chip key={area} icon={<MapPin size={14} />} label={area} />)}
-          </div>
-        </section>
+          </section>
 
-        <section className="rt-business-plan-preview">
-          <div className="public-band rt-section">
+          <section className="public-band rt-section rt-services-section">
+            <SectionHeading
+              kicker="What We Fix"
+              title="Clear categories, practical fixes, and no mystery tech talk."
+            >
+              Use the tabs to see common work across home support, business IT, and managed care.
+            </SectionHeading>
+            <ServicesTabs />
+          </section>
+
+          <section className="public-band rt-section rt-difference-section" id="managed-it">
             <div>
               <SectionHeading
-                kicker="Business plan"
-                title="The public site is backed by a practical local IT business plan."
+                kicker="Managed IT"
+                title="A steady IT lane for small businesses that are tired of winging it."
               >
-                The launch plan focuses on repairs and setup work first, then converts repeat clients into recurring support agreements.
+                Monthly support gives your team a practical rhythm: device inventory, account setup, backup checks, security basics, and a clear place to send problems.
               </SectionHeading>
-              <Button className="public-secondary rt-secondary" type="button" onClick={() => onNavigate("/business-plan")} variant="outlined">
-                Open business plan <FileText size={17} />
-              </Button>
+              <div className="rt-check-grid">
+                {[
+                  "Microsoft 365 or Google Workspace setup",
+                  "Router, Wi-Fi, and printer support",
+                  "New hire device onboarding",
+                  "Backup and security reviews",
+                  "Vendor coordination and documentation",
+                  "Priority support for active clients"
+                ].map((item) => <span key={item}><Check size={15} />{item}</span>)}
+              </div>
             </div>
-            <div className="rt-preview-grid">
-              {businessPlanSections.map((section) => {
-                const Icon = section.icon;
+            <div className="rt-difference-grid">
+              {differencePoints.map((point) => {
+                const Icon = point.icon;
                 return (
-                  <article key={section.title}>
-                    <Icon size={19} />
-                    <h3>{section.title}</h3>
-                    <p>{section.body}</p>
+                  <article key={point.title}>
+                    <Icon size={21} />
+                    <h3>{point.title}</h3>
+                    <p>{point.detail}</p>
                   </article>
                 );
               })}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="public-band rt-section rt-contact-section" id="contact">
-          <div>
-            <SectionHeading
-              kicker="Request support"
-              title="Tell Robbins Technologies what you need fixed, set up, or kept healthy."
-            >
-              A clear request helps triage the job, prepare for the first session, and decide whether remote or on-site support is the right start.
-            </SectionHeading>
-            <div className="rt-contact-methods">
-              <Button component="a" href="mailto:support@robbinstechnologies.com"><Mail size={16} /> support@robbinstechnologies.com</Button>
-              <Button type="button" onClick={() => onNavigate("/login")}><Lock size={16} /> Client dashboard</Button>
+          <section className="rt-process-band">
+            <div className="public-band rt-section">
+              <SectionHeading
+                kicker="How It Works"
+                title="A clean support process from first message to finished fix."
+              />
+              <div className="rt-process-grid">
+                {processSteps.map((step, index) => {
+                  const Icon = step.icon;
+                  return (
+                    <motion.article
+                      className="rt-process-step"
+                      key={step.title}
+                      variants={reveal}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, amount: 0.25 }}
+                      transition={{ delay: index * 0.04, duration: 0.4 }}
+                    >
+                      <span>{index + 1}</span>
+                      <Icon size={22} />
+                      <h3>{step.title}</h3>
+                      <p>{step.detail}</p>
+                    </motion.article>
+                  );
+                })}
+              </div>
             </div>
-            <FaqSection />
-          </div>
-          <SupportRequestForm />
-        </section>
-      </main>
+          </section>
+
+          <section className="public-band rt-section" id="plans">
+            <SectionHeading
+              kicker="Plans"
+              title="Transparent starting points for repairs, visits, and monthly care."
+            >
+              Keep the first conversation simple. One-time fixes stay available, and repeat clients can move into priority monthly support.
+            </SectionHeading>
+            <PlansSection />
+          </section>
+
+          <section className="public-band rt-section rt-service-area" id="service-area">
+            <div>
+              <SectionHeading
+                kicker="Service Area"
+                title="Serving Asheville & WNC from a local support hub."
+              >
+                Remote help can start quickly. On-site support is prioritized around Asheville, Buncombe County, and nearby Western North Carolina communities.
+              </SectionHeading>
+              <div className="rt-area-grid">
+                {serviceAreas.map((area) => <Chip key={area} icon={<MapPin size={14} />} label={area} />)}
+              </div>
+            </div>
+            <ServiceAreaMap />
+          </section>
+
+          <section className="rt-proof-band">
+            <div className="rt-proof-copy">
+              <Sparkles size={24} />
+              <h2>Professional IT help that feels local, calm, and accountable.</h2>
+              <p>
+                Built for people who need technology handled clearly: homeowners, freelancers, shops, clinics, offices, property operators, and small teams across WNC.
+              </p>
+            </div>
+            <blockquote>
+              <p>“The goal is simple: fix the issue, explain what changed, and leave the client with a cleaner path forward.”</p>
+              <cite>Robbins Technologies service standard</cite>
+            </blockquote>
+          </section>
+
+          <section className="rt-business-plan-preview">
+            <div className="public-band rt-section">
+              <div>
+                <SectionHeading
+                  kicker="Business Plan"
+                  title="A practical launch plan behind the public site."
+                >
+                  The launch plan focuses on repairs and setup work first, then converts repeat clients into recurring support agreements.
+                </SectionHeading>
+                <Button className="public-secondary rt-secondary" type="button" onClick={() => onNavigate("/business-plan")} variant="outlined">
+                  Open business plan <FileText size={17} />
+                </Button>
+              </div>
+              <div className="rt-preview-grid">
+                {businessPlanSections.map((section) => {
+                  const Icon = section.icon;
+                  return (
+                    <article key={section.title}>
+                      <Icon size={19} />
+                      <h3>{section.title}</h3>
+                      <p>{section.body}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          <section className="public-band rt-section rt-contact-section" id="contact">
+            <div>
+              <SectionHeading
+                kicker="Request Support"
+                title="Tell Robbins Technologies what needs fixed, set up, or kept healthy."
+              >
+                A clear request helps triage the job, prepare for the first session, and decide whether remote or on-site support is the right start.
+              </SectionHeading>
+              <div className="rt-contact-methods">
+                <Button component="a" href="mailto:support@robbinstechnologies.com"><Mail size={16} /> support@robbinstechnologies.com</Button>
+                <Button type="button" onClick={() => onNavigate("/login")}><Lock size={16} /> Client dashboard</Button>
+              </div>
+              <FaqSection />
+            </div>
+            <SupportRequestForm />
+          </section>
+        </main>
+
+        <PublicFooter onNavigate={onNavigate} />
       </div>
     </ThemeProvider>
   );
