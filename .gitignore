@@ -1,0 +1,8 @@
+node_modules/
+dist/
+outputs/
+work/
+.wrangler/
+.env
+.env.local
+.env.*.local
