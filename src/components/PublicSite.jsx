@@ -21,12 +21,14 @@ import {
   ArrowRight,
   BadgeCheck,
   Building2,
+  CalendarDays,
   Check,
   ChevronDown,
   ChevronRight,
   ClipboardList,
   Clock3,
   Cloud,
+  Code,
   DollarSign,
   FileText,
   Home,
@@ -47,9 +49,20 @@ import {
   Wifi,
   Wrench
 } from "lucide-react";
-import heroImage from "../assets/asheville-it-service-hero.webp";
 import logoMark from "../assets/robbins-technologies-mark.png";
 import logoLockup from "../assets/robbins-technologies-logo.png";
+import circuitFieldImage from "../assets/rt-circuit-field-bg.webp";
+import heroCircuitImage from "../assets/rt-hero-circuit-bg.webp";
+import serviceAreaMountains from "../assets/rt-service-area-mountains.webp";
+import securityCloudImage from "../assets/rt-security-cloud-cutout.webp";
+import iconBackup from "../assets/rt-service-icons/rt-icon-backup.png";
+import iconCloud from "../assets/rt-service-icons/rt-icon-cloud.png";
+import iconCode from "../assets/rt-service-icons/rt-icon-code.png";
+import iconSecurity from "../assets/rt-service-icons/rt-icon-security.png";
+import iconServer from "../assets/rt-service-icons/rt-icon-server.png";
+import iconSupport from "../assets/rt-service-icons/rt-icon-support.png";
+import iconWeb from "../assets/rt-service-icons/rt-icon-web.png";
+import iconWorkstation from "../assets/rt-service-icons/rt-icon-workstation.png";
 
 const publicTheme = createTheme({
   palette: {
@@ -126,17 +139,23 @@ const publicTheme = createTheme({
   }
 });
 
+const BUSINESS_PHONE = "8284366869";
+const BUSINESS_PHONE_DISPLAY = "(828) 436-6869";
+const BUSINESS_PHONE_TEL = `tel:+1${BUSINESS_PHONE}`;
+
 const serviceAreas = [
   "Asheville",
   "Buncombe County",
+  "Arden",
   "Hendersonville",
   "Waynesville",
   "Black Mountain",
   "Weaverville",
+  "Boone",
   "Mars Hill",
   "Marion",
   "Morganton",
-  "Boone",
+  "Surrounding areas",
   "Northwestern NC"
 ];
 
@@ -201,71 +220,109 @@ const differencePoints = [
 
 const serviceTabs = [
   {
-    name: "Home Support",
-    icon: Home,
-    intro: "Computer, Wi-Fi, printer, email, backup, and device help without the runaround.",
-    services: [
-      {
-        title: "Remote Support",
-        icon: Laptop,
-        detail: "Fast help for slow computers, account access, software installs, cleanup, and everyday troubleshooting."
-      },
-      {
-        title: "On-Site Repair",
-        icon: Wrench,
-        detail: "In-person diagnostics, upgrades, printer fixes, Wi-Fi issues, and hardware troubleshooting."
-      },
-      {
-        title: "Backup Setup",
-        icon: Cloud,
-        detail: "Practical backup plans for important files, photos, business documents, and recovery confidence."
-      }
-    ]
-  },
-  {
-    name: "Business IT",
+    name: "Business Support",
     icon: Building2,
-    intro: "Setup and support for small teams that need reliable technology without a full-time IT hire.",
+    intro: "Practical IT help for small teams that need reliable computers, email, Wi-Fi, and day-to-day support.",
     services: [
       {
-        title: "Office Setup",
-        icon: Monitor,
-        detail: "New workstations, secure email, shared files, printers, onboarding, and cleanup projects."
+        title: "Managed IT Support",
+        icon: ShieldCheck,
+        asset: iconSupport,
+        detail: "Stop chasing random fixes. Get a steady support lane for tickets, users, devices, vendors, and recurring maintenance."
       },
       {
-        title: "Network & Wi-Fi",
+        title: "Business Email Setup",
+        icon: Cloud,
+        asset: iconCloud,
+        detail: "Move beyond messy personal email. Get Microsoft 365 or Google Workspace, account security, shared access, and backups handled correctly."
+      },
+      {
+        title: "Network & Wi-Fi Setup",
         icon: Wifi,
-        detail: "Router replacement, Wi-Fi coverage, wired devices, printers, and basic network documentation."
-      },
-      {
-        title: "Vendor Coordination",
-        icon: PhoneCall,
-        detail: "A steady technical contact for internet providers, software vendors, device warranties, and migrations."
+        asset: iconServer,
+        detail: "Fix spotty Wi-Fi, unreliable routers, printer issues, and undocumented network gear so the business can actually work."
       }
     ]
   },
   {
-    name: "Managed IT",
+    name: "Security + Data",
     icon: ShieldCheck,
-    intro: "Monthly support for small offices that want priority response, maintenance, and better visibility.",
+    intro: "Security, backup, and recovery basics for businesses that cannot afford avoidable downtime or data loss.",
     services: [
       {
-        title: "Priority Support",
-        icon: Clock3,
-        detail: "A dedicated support lane for recurring clients, urgent triage, and planned IT changes."
-      },
-      {
-        title: "Security Basics",
+        title: "Cybersecurity Setup",
         icon: Lock,
-        detail: "Account hardening, password practices, update checks, backup reviews, and practical protection."
+        asset: iconSecurity,
+        detail: "Harden accounts, devices, passwords, updates, and backups with sensible protection that fits a small-business budget."
       },
       {
-        title: "Health Checks",
+        title: "Data Backup & Recovery",
         icon: Server,
-        detail: "Monthly review of devices, network basics, backup status, user changes, and support trends."
+        asset: iconBackup,
+        detail: "Put business files, website assets, and key documents on a clearer backup path before a device fails or files disappear."
+      },
+      {
+        title: "Emergency IT Help",
+        icon: PhoneCall,
+        asset: iconWorkstation,
+        detail: "Email down, network offline, computer issue, or security concern? Call Robbins Technologies for urgent triage."
+      }
+    ]
+  },
+  {
+    name: "Web + Automation",
+    icon: Code,
+    intro: "Modern websites, hosting, automations, and AI tooling that connect the public site to real operations.",
+    services: [
+      {
+        title: "Website Design & Hosting",
+        icon: Monitor,
+        asset: iconWeb,
+        detail: "Build or clean up a business website with hosting, DNS, Cloudflare, forms, analytics, and local SEO basics."
+      },
+      {
+        title: "Automation & AI Tools",
+        icon: Code,
+        asset: iconCode,
+        detail: "Turn repetitive admin work into smoother workflows with forms, dashboards, notifications, and practical AI helpers."
+      },
+      {
+        title: "Computer Repair / Device Setup",
+        icon: Wrench,
+        asset: iconWorkstation,
+        detail: "Set up new devices, clean slow machines, install software, migrate files, and make the workstation usable again."
       }
     ]
   }
+];
+
+const appointmentTypes = [
+  "Free consultation",
+  "Remote support session",
+  "On-site visit",
+  "Emergency triage",
+  "Monthly IT support review"
+];
+
+const urgencyOptions = [
+  "Today if possible",
+  "This week",
+  "Planning ahead",
+  "Emergency"
+];
+
+const supportModeOptions = [
+  "Start remote",
+  "On-site preferred",
+  "Either is fine",
+  "Not sure yet"
+];
+
+const appointmentTimes = [
+  "Morning",
+  "Lunch window",
+  "Afternoon",
+  "After hours"
 ];
 
 const plans = [
@@ -456,14 +513,15 @@ function PublicNav({ onNavigate, compact = false }) {
         <Button className="rt-nav-link" component="a" href="/#managed-it" onClick={(event) => goSection(event, "managed-it")}>Managed IT</Button>
         <Button className="rt-nav-link" component="a" href="/#service-area" onClick={(event) => goSection(event, "service-area")}>Service Area</Button>
         <Button className="rt-nav-link rt-business-link" type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</Button>
+        <Button className="rt-phone-link" component="a" href={BUSINESS_PHONE_TEL}><PhoneCall size={16} /> {BUSINESS_PHONE_DISPLAY}</Button>
         <Button className="rt-nav-cta" component="a" href="/#contact" onClick={(event) => goSection(event, "contact")}>Schedule Support</Button>
         <Button className="public-login rt-login-link" type="button" onClick={() => onNavigate("/login")}>
           Client Login
         </Button>
       </nav>
       <div className="rt-mobile-nav-controls" aria-label="Mobile navigation controls">
-        <Button className="rt-mobile-cta" type="button" onClick={() => goMobileSection("contact")}>
-          Schedule
+        <Button className="rt-mobile-cta" component="a" href={BUSINESS_PHONE_TEL}>
+          Call
         </Button>
         <Button
           className="rt-mobile-menu-button"
@@ -492,6 +550,7 @@ function PublicNav({ onNavigate, compact = false }) {
         <MenuItem onClick={() => goMobileSection("managed-it")}>Managed IT</MenuItem>
         <MenuItem onClick={() => goMobileSection("service-area")}>Service Area</MenuItem>
         <MenuItem onClick={() => goMobileRoute("/business-plan")}>Business Plan</MenuItem>
+        <MenuItem component="a" href={BUSINESS_PHONE_TEL}>Call {BUSINESS_PHONE_DISPLAY}</MenuItem>
         <MenuItem onClick={() => goMobileSection("contact")}>Schedule Support</MenuItem>
         <MenuItem onClick={() => goMobileRoute("/login")}>Client Login</MenuItem>
       </MuiMenu>
@@ -513,8 +572,13 @@ function SupportRequestForm() {
   const [submitted, setSubmitted] = useState(false);
   const [request, setRequest] = useState({
     name: "",
-    contact: "",
-    service: "Remote Support",
+    business: "",
+    phone: "",
+    email: "",
+    service: "Managed IT Support",
+    urgency: "This week",
+    users: "",
+    supportMode: "Start remote",
     detail: ""
   });
 
@@ -526,7 +590,7 @@ function SupportRequestForm() {
   const mailto = useMemo(() => {
     const subject = encodeURIComponent(`${request.service} request`);
     const body = encodeURIComponent(
-      `Name: ${request.name}\nContact: ${request.contact}\nService: ${request.service}\n\nWhat is going on?\n${request.detail}`
+      `Name: ${request.name}\nBusiness: ${request.business}\nPhone: ${request.phone}\nEmail: ${request.email}\nService: ${request.service}\nUrgency: ${request.urgency}\nComputers/users: ${request.users}\nRemote or on-site: ${request.supportMode}\n\nWhat is going on?\n${request.detail}`
     );
     return `mailto:support@robbinstechnologies.com?subject=${subject}&body=${body}`;
   }, [request]);
@@ -554,32 +618,93 @@ function SupportRequestForm() {
       />
       <TextField
         className="rt-form-field"
-        id="support-contact"
-        name="contact"
-        label="Email or phone"
-        value={request.contact}
-        onChange={(event) => setRequest((current) => ({ ...current, contact: event.target.value }))}
-        placeholder="Best way to reach you"
+        id="support-business"
+        name="business"
+        label="Business name"
+        value={request.business}
+        onChange={(event) => setRequest((current) => ({ ...current, business: event.target.value }))}
+        placeholder="Optional for home support"
+        autoComplete="organization"
+        slotProps={{ htmlInput: { "aria-label": "Business name" } }}
+      />
+      <TextField
+        className="rt-form-field"
+        id="support-phone"
+        name="phone"
+        label="Phone"
+        value={request.phone}
+        onChange={(event) => setRequest((current) => ({ ...current, phone: event.target.value }))}
+        placeholder={BUSINESS_PHONE_DISPLAY}
+        autoComplete="tel"
+        required
+        slotProps={{ htmlInput: { "aria-label": "Phone" } }}
+      />
+      <TextField
+        className="rt-form-field"
+        id="support-email"
+        name="email"
+        label="Email"
+        value={request.email}
+        onChange={(event) => setRequest((current) => ({ ...current, email: event.target.value }))}
+        placeholder="you@example.com"
         autoComplete="email"
         required
-        slotProps={{ htmlInput: { "aria-label": "Email or phone" } }}
+        slotProps={{ htmlInput: { "aria-label": "Email" } }}
       />
       <FormControl className="rt-form-field" required>
-        <InputLabel id="support-service-label">Service</InputLabel>
+        <InputLabel id="support-service-label">What do you need help with?</InputLabel>
         <Select
           labelId="support-service-label"
           id="support-service"
           name="service"
           value={request.service}
-          label="Service"
+          label="What do you need help with?"
           onChange={(event) => setRequest((current) => ({ ...current, service: event.target.value }))}
           inputProps={{ "aria-label": "Service" }}
         >
           {serviceOptions.map((service) => <MenuItem key={service} value={service}>{service}</MenuItem>)}
         </Select>
       </FormControl>
+      <FormControl className="rt-form-field" required>
+        <InputLabel id="support-urgency-label">How urgent is it?</InputLabel>
+        <Select
+          labelId="support-urgency-label"
+          id="support-urgency"
+          name="urgency"
+          value={request.urgency}
+          label="How urgent is it?"
+          onChange={(event) => setRequest((current) => ({ ...current, urgency: event.target.value }))}
+          inputProps={{ "aria-label": "How urgent is it?" }}
+        >
+          {urgencyOptions.map((urgency) => <MenuItem key={urgency} value={urgency}>{urgency}</MenuItem>)}
+        </Select>
+      </FormControl>
       <TextField
-        className="rt-form-field full"
+        className="rt-form-field"
+        id="support-users"
+        name="users"
+        label="How many computers/users?"
+        value={request.users}
+        onChange={(event) => setRequest((current) => ({ ...current, users: event.target.value }))}
+        placeholder="Example: 3 users, 5 computers"
+        slotProps={{ htmlInput: { "aria-label": "How many computers or users?" } }}
+      />
+      <FormControl className="rt-form-field" required>
+        <InputLabel id="support-mode-label">Remote or on-site?</InputLabel>
+        <Select
+          labelId="support-mode-label"
+          id="support-mode"
+          name="supportMode"
+          value={request.supportMode}
+          label="Remote or on-site?"
+          onChange={(event) => setRequest((current) => ({ ...current, supportMode: event.target.value }))}
+          inputProps={{ "aria-label": "Remote or on-site?" }}
+        >
+          {supportModeOptions.map((mode) => <MenuItem key={mode} value={mode}>{mode}</MenuItem>)}
+        </Select>
+      </FormControl>
+      <TextField
+        className="rt-form-field full rt-detail-field"
         id="support-detail"
         name="detail"
         label="What needs fixed or set up?"
@@ -595,11 +720,192 @@ function SupportRequestForm() {
         <Button className="public-primary rt-primary" type="submit" variant="contained">
           Prepare request <Mail size={17} />
         </Button>
+        <Button className="public-secondary rt-secondary" component="a" href={BUSINESS_PHONE_TEL} variant="outlined">
+          Call {BUSINESS_PHONE_DISPLAY} <PhoneCall size={17} />
+        </Button>
         <p aria-live="polite">
-          {submitted ? "Your email client is opening with the support request ready." : "Most requests start with remote triage, then move on-site when needed."}
+          {submitted ? "Your email client is opening with the support request ready." : "For urgent outages, calling is the fastest path."}
         </p>
       </div>
     </form>
+  );
+}
+
+function ServiceCardIcon({ service }) {
+  if (service.asset) {
+    return (
+      <span className="rt-service-card-icon">
+        <img src={service.asset} alt="" loading="lazy" decoding="async" />
+      </span>
+    );
+  }
+
+  const Icon = service.icon;
+  return <span className="rt-service-card-icon"><Icon size={21} /></span>;
+}
+
+function SchedulingPanel() {
+  const [submitted, setSubmitted] = useState(false);
+  const [appointment, setAppointment] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    type: "Free consultation",
+    date: "",
+    time: "Morning",
+    urgency: "This week",
+    mode: "Start remote",
+    notes: ""
+  });
+
+  const minDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
+
+  const mailto = useMemo(() => {
+    const subject = encodeURIComponent(`Schedule ${appointment.type}`);
+    const body = encodeURIComponent(
+      `Name: ${appointment.name}\nPhone: ${appointment.phone}\nEmail: ${appointment.email}\nAppointment type: ${appointment.type}\nPreferred date: ${appointment.date}\nPreferred time: ${appointment.time}\nUrgency: ${appointment.urgency}\nRemote or on-site: ${appointment.mode}\n\nNotes:\n${appointment.notes}`
+    );
+    return `mailto:support@robbinstechnologies.com?subject=${subject}&body=${body}`;
+  }, [appointment]);
+
+  return (
+    <section className="rt-scheduler-panel" aria-label="Schedule Robbins Technologies support">
+      <div className="rt-scheduler-copy">
+        <CalendarDays size={24} />
+        <h2>Schedule IT help online.</h2>
+        <p>
+          Pick the kind of help you need and the best time window. Robbins Technologies will confirm the appointment and whether remote or on-site support is the right start.
+        </p>
+        <div className="rt-scheduler-callout">
+          <PhoneCall size={18} />
+          <span>Need help faster? Call <a href={BUSINESS_PHONE_TEL}>{BUSINESS_PHONE_DISPLAY}</a>.</span>
+        </div>
+      </div>
+      <form
+        className="rt-scheduler-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          setSubmitted(true);
+          window.location.href = mailto;
+        }}
+      >
+        <TextField
+          className="rt-form-field"
+          id="schedule-name"
+          name="name"
+          label="Name"
+          value={appointment.name}
+          onChange={(event) => setAppointment((current) => ({ ...current, name: event.target.value }))}
+          autoComplete="name"
+          required
+        />
+        <TextField
+          className="rt-form-field"
+          id="schedule-phone"
+          name="phone"
+          label="Phone"
+          value={appointment.phone}
+          onChange={(event) => setAppointment((current) => ({ ...current, phone: event.target.value }))}
+          autoComplete="tel"
+          required
+        />
+        <TextField
+          className="rt-form-field"
+          id="schedule-email"
+          name="email"
+          label="Email"
+          value={appointment.email}
+          onChange={(event) => setAppointment((current) => ({ ...current, email: event.target.value }))}
+          autoComplete="email"
+          required
+        />
+        <FormControl className="rt-form-field" required>
+          <InputLabel id="schedule-type-label">Appointment type</InputLabel>
+          <Select
+            labelId="schedule-type-label"
+            id="schedule-type"
+            name="type"
+            value={appointment.type}
+            label="Appointment type"
+            onChange={(event) => setAppointment((current) => ({ ...current, type: event.target.value }))}
+          >
+            {appointmentTypes.map((type) => <MenuItem key={type} value={type}>{type}</MenuItem>)}
+          </Select>
+        </FormControl>
+        <TextField
+          className="rt-form-field"
+          id="schedule-date"
+          name="date"
+          label="Preferred date"
+          type="date"
+          value={appointment.date}
+          onChange={(event) => setAppointment((current) => ({ ...current, date: event.target.value }))}
+          required
+          slotProps={{ inputLabel: { shrink: true }, htmlInput: { min: minDate } }}
+        />
+        <FormControl className="rt-form-field" required>
+          <InputLabel id="schedule-time-label">Best time</InputLabel>
+          <Select
+            labelId="schedule-time-label"
+            id="schedule-time"
+            name="time"
+            value={appointment.time}
+            label="Best time"
+            onChange={(event) => setAppointment((current) => ({ ...current, time: event.target.value }))}
+          >
+            {appointmentTimes.map((time) => <MenuItem key={time} value={time}>{time}</MenuItem>)}
+          </Select>
+        </FormControl>
+        <FormControl className="rt-form-field" required>
+          <InputLabel id="schedule-urgency-label">Urgency</InputLabel>
+          <Select
+            labelId="schedule-urgency-label"
+            id="schedule-urgency"
+            name="urgency"
+            value={appointment.urgency}
+            label="Urgency"
+            onChange={(event) => setAppointment((current) => ({ ...current, urgency: event.target.value }))}
+          >
+            {urgencyOptions.map((urgency) => <MenuItem key={urgency} value={urgency}>{urgency}</MenuItem>)}
+          </Select>
+        </FormControl>
+        <FormControl className="rt-form-field" required>
+          <InputLabel id="schedule-mode-label">Support type</InputLabel>
+          <Select
+            labelId="schedule-mode-label"
+            id="schedule-mode"
+            name="mode"
+            value={appointment.mode}
+            label="Support type"
+            onChange={(event) => setAppointment((current) => ({ ...current, mode: event.target.value }))}
+          >
+            {supportModeOptions.map((mode) => <MenuItem key={mode} value={mode}>{mode}</MenuItem>)}
+          </Select>
+        </FormControl>
+        <TextField
+          className="rt-form-field full"
+          id="schedule-notes"
+          name="notes"
+          label="What should be handled?"
+          value={appointment.notes}
+          onChange={(event) => setAppointment((current) => ({ ...current, notes: event.target.value }))}
+          placeholder="Email down, new office setup, Wi-Fi issue, website help, monthly support..."
+          multiline
+          minRows={3}
+        />
+        <div className="rt-form-footer">
+          <Button className="public-primary rt-primary" type="submit" variant="contained">
+            Request appointment <CalendarDays size={17} />
+          </Button>
+          <Button className="public-secondary rt-secondary" component="a" href={BUSINESS_PHONE_TEL} variant="outlined">
+            Call now <PhoneCall size={17} />
+          </Button>
+          <p aria-live="polite">
+            {submitted ? "Your email client is opening with the scheduling request ready." : "Submitting this starts a scheduling request, not a confirmed appointment."}
+          </p>
+        </div>
+      </form>
+    </section>
   );
 }
 
@@ -639,7 +945,6 @@ function ServicesTabs() {
         <p>{activeTab.intro}</p>
         <div className="rt-service-grid">
           {activeTab.services.map((service) => {
-            const Icon = service.icon;
             return (
               <motion.article
                 className="rt-service-card"
@@ -650,7 +955,7 @@ function ServicesTabs() {
                 viewport={{ once: true, amount: 0.25 }}
                 transition={{ duration: 0.42 }}
               >
-                <span><Icon size={21} /></span>
+                <ServiceCardIcon service={service} />
                 <h3>{service.title}</h3>
                 <p>{service.detail}</p>
                 <a href="#contact">Request this <ChevronRight size={15} /></a>
@@ -782,6 +1087,7 @@ function PublicFooter({ onNavigate }) {
         </div>
       </div>
       <div className="rt-footer-links">
+        <a href={BUSINESS_PHONE_TEL}>Call {BUSINESS_PHONE_DISPLAY}</a>
         <a href="#paths">Services</a>
         <a href="#plans">Plans</a>
         <a href="#service-area">Service Area</a>
@@ -799,7 +1105,7 @@ export function PublicLanding({ onNavigate }) {
         <PublicNav onNavigate={onNavigate} />
 
         <main>
-          <section className="public-hero rt-hero rt-hero-v2" style={{ "--hero-image": `url(${heroImage})` }}>
+          <section className="public-hero rt-hero rt-hero-v2 rt-hero-graphic" style={{ "--hero-image": `url(${heroCircuitImage})` }}>
             <div className="rt-hero-inner">
               <motion.div
                 className="rt-hero-copy"
@@ -807,13 +1113,16 @@ export function PublicLanding({ onNavigate }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.52 }}
               >
-                <h1>Asheville IT Support Without the Runaround</h1>
+                <h1>Reliable IT support for Asheville businesses.</h1>
                 <p>
-                  Remote help, on-site repair, business setup, and monthly IT care for Western North Carolina homes and small teams.
+                  Cybersecurity, websites, automation, remote help, on-site repair, backup, and monthly IT care for small businesses in northwestern North Carolina.
                 </p>
                 <div className="hero-actions rt-hero-actions">
                   <Button className="public-primary rt-primary" component="a" href="#contact" variant="contained">
-                    Schedule Support <ArrowRight size={17} />
+                    Schedule Free Consultation <ArrowRight size={17} />
+                  </Button>
+                  <Button className="public-secondary rt-secondary" component="a" href={BUSINESS_PHONE_TEL} variant="outlined">
+                    Call Now <PhoneCall size={17} />
                   </Button>
                   <Button className="public-secondary rt-secondary" component="a" href="#paths" variant="outlined">
                     View Services
@@ -863,11 +1172,11 @@ export function PublicLanding({ onNavigate }) {
           <section className="rt-emergency-band" id="services">
             <div>
               <PhoneCall size={24} />
-              <h2>Something broke today?</h2>
-              <p>Start with remote triage. If the fix needs hands-on work, schedule an on-site visit around Asheville and nearby WNC communities.</p>
+              <h2>Need urgent IT help?</h2>
+              <p>Email down? Network offline? Computer issue? Security concern? Call Robbins Technologies for fast triage.</p>
             </div>
-            <Button className="rt-emergency-button" component="a" href="#contact">
-              Start a support request <ArrowRight size={17} />
+            <Button className="rt-emergency-button" component="a" href={BUSINESS_PHONE_TEL}>
+              Call for Emergency Help <PhoneCall size={17} />
             </Button>
           </section>
 
@@ -876,7 +1185,7 @@ export function PublicLanding({ onNavigate }) {
               kicker="What We Fix"
               title="Clear categories, practical fixes, and no mystery tech talk."
             >
-              Use the tabs to see common work across home support, business IT, and managed care.
+              Use the tabs to see common work across business support, security, data, websites, and automation.
             </SectionHeading>
             <ServicesTabs />
           </section>
@@ -900,17 +1209,20 @@ export function PublicLanding({ onNavigate }) {
                 ].map((item) => <span key={item}><Check size={15} />{item}</span>)}
               </div>
             </div>
-            <div className="rt-difference-grid">
-              {differencePoints.map((point) => {
-                const Icon = point.icon;
-                return (
-                  <article key={point.title}>
-                    <Icon size={21} />
-                    <h3>{point.title}</h3>
-                    <p>{point.detail}</p>
-                  </article>
-                );
-              })}
+            <div className="rt-difference-visual-stack">
+              <img className="rt-security-visual" src={securityCloudImage} alt="Secure cloud, servers, backup, and business technology protection" loading="lazy" decoding="async" />
+              <div className="rt-difference-grid">
+                {differencePoints.map((point) => {
+                  const Icon = point.icon;
+                  return (
+                    <article key={point.title}>
+                      <Icon size={21} />
+                      <h3>{point.title}</h3>
+                      <p>{point.detail}</p>
+                    </article>
+                  );
+                })}
+              </div>
             </div>
           </section>
 
@@ -958,15 +1270,18 @@ export function PublicLanding({ onNavigate }) {
             <div>
               <SectionHeading
                 kicker="Service Area"
-                title="Serving Asheville & WNC from a local support hub."
+                title="Proudly serving Asheville and northwestern North Carolina."
               >
-                Remote help can start quickly. On-site support is prioritized around Asheville, Buncombe County, and nearby Western North Carolina communities.
+                Remote help can start quickly. On-site support is prioritized around Asheville, Buncombe County, Boone, Hendersonville, Weaverville, Arden, Black Mountain, and surrounding areas.
               </SectionHeading>
               <div className="rt-area-grid">
                 {serviceAreas.map((area) => <Chip key={area} icon={<MapPin size={14} />} label={area} />)}
               </div>
             </div>
             <ServiceAreaMap />
+            <figure className="rt-service-area-graphic">
+              <img src={serviceAreaMountains} alt="Proudly serving Asheville and northwestern North Carolina" loading="lazy" decoding="async" />
+            </figure>
           </section>
 
           <section className="rt-proof-band">
@@ -1011,6 +1326,10 @@ export function PublicLanding({ onNavigate }) {
             </div>
           </section>
 
+          <div className="public-band rt-section rt-schedule-section" style={{ "--schedule-bg": `url(${circuitFieldImage})` }}>
+            <SchedulingPanel />
+          </div>
+
           <section className="public-band rt-section rt-contact-section" id="contact">
             <div>
               <SectionHeading
@@ -1020,6 +1339,7 @@ export function PublicLanding({ onNavigate }) {
                 A clear request helps triage the job, prepare for the first session, and decide whether remote or on-site support is the right start.
               </SectionHeading>
               <div className="rt-contact-methods">
+                <Button component="a" href={BUSINESS_PHONE_TEL}><PhoneCall size={16} /> {BUSINESS_PHONE_DISPLAY}</Button>
                 <Button component="a" href="mailto:support@robbinstechnologies.com"><Mail size={16} /> support@robbinstechnologies.com</Button>
                 <Button type="button" onClick={() => onNavigate("/login")}><Lock size={16} /> Client dashboard</Button>
               </div>
@@ -1057,8 +1377,8 @@ export function BusinessPlanPage({ onNavigate }) {
               <Button className="public-primary rt-primary" type="button" onClick={() => onNavigate("/")} variant="contained">
                 Back to site <ArrowRight size={17} />
               </Button>
-              <Button className="public-secondary rt-secondary" component="a" href="mailto:support@robbinstechnologies.com" variant="outlined">
-                Contact <Mail size={17} />
+              <Button className="public-secondary rt-secondary" component="a" href={BUSINESS_PHONE_TEL} variant="outlined">
+                Call {BUSINESS_PHONE_DISPLAY} <PhoneCall size={17} />
               </Button>
             </div>
           </motion.div>
