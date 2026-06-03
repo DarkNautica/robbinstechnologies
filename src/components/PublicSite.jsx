@@ -7,6 +7,7 @@ import {
   Chip,
   FormControl,
   InputLabel,
+  Menu as MuiMenu,
   MenuItem,
   Select,
   Tab,
@@ -32,6 +33,7 @@ import {
   Laptop,
   Lock,
   Mail,
+  Menu as MenuIcon,
   MapPin,
   Monitor,
   PhoneCall,
@@ -46,23 +48,25 @@ import {
   Wrench
 } from "lucide-react";
 import heroImage from "../assets/asheville-it-service-hero.webp";
+import logoMark from "../assets/robbins-technologies-mark.png";
+import logoLockup from "../assets/robbins-technologies-logo.png";
 
 const publicTheme = createTheme({
   palette: {
     primary: {
-      main: "#087f73",
-      dark: "#102a32",
+      main: "#1458f5",
+      dark: "#111a2f",
       contrastText: "#ffffff"
     },
     secondary: {
-      main: "#d98718"
+      main: "#0b2d6f"
     },
     text: {
-      primary: "#102a32",
-      secondary: "#5d6f71"
+      primary: "#111a2f",
+      secondary: "#526176"
     },
     background: {
-      default: "#f6faf9",
+      default: "#f5f8ff",
       paper: "#ffffff"
     }
   },
@@ -399,43 +403,98 @@ function scrollToSection(id, onNavigate) {
 
 function BrandMark() {
   return (
-    <span className="brand-mark rt-brand-mark rt-mountain-mark" aria-hidden="true">
-      <svg viewBox="0 0 64 64" role="img">
-        <path className="mark-shield" d="M32 5 56 17v17c0 15-9.8 23.4-24 29C17.8 57.4 8 49 8 34V17L32 5Z" />
-        <path className="mark-mountain left" d="M13 42 27 20l9 15 5-8 11 15H13Z" />
-        <path className="mark-mountain right" d="M25 42 36 26l12 16H25Z" />
-        <path className="mark-circuit" d="M19 47h10m6 0h10M32 20v15m0 12v7" />
-        <circle className="mark-node" cx="32" cy="35" r="3" />
-      </svg>
+    <span className="brand-mark rt-brand-mark rt-logo-mark" aria-hidden="true">
+      <img src={logoMark} alt="" loading="eager" decoding="async" />
     </span>
   );
 }
 
+function BrandLockup({ footer = false }) {
+  return (
+    <img
+      className={`rt-logo-lockup ${footer ? "footer" : ""}`}
+      src={logoLockup}
+      alt="Robbins Technologies"
+      loading="eager"
+      decoding="async"
+    />
+  );
+}
+
 function PublicNav({ onNavigate, compact = false }) {
+  const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
+  const mobileMenuOpen = Boolean(mobileMenuAnchor);
+
   const goSection = (event, id) => {
     event.preventDefault();
     scrollToSection(id, onNavigate);
   };
 
+  const closeMobileMenu = () => setMobileMenuAnchor(null);
+
+  const goMobileSection = (id) => {
+    closeMobileMenu();
+    scrollToSection(id, onNavigate);
+  };
+
+  const goMobileRoute = (path) => {
+    closeMobileMenu();
+    onNavigate(path);
+  };
+
   return (
     <header className={`public-nav rt-public-nav ${compact ? "compact" : ""}`}>
       <button className="public-brand rt-public-brand" type="button" onClick={() => onNavigate("/")}>
-        <BrandMark />
-        <span>
-          <strong>Robbins Technologies</strong>
-          <small>Asheville IT Support</small>
+        <BrandLockup />
+        <span className="rt-brand-copy">
+          <strong>Asheville IT Support</strong>
+          <small>Remote, on-site, and monthly care</small>
         </span>
       </button>
       <nav aria-label="Public navigation">
         <Button className="rt-nav-link" component="a" href="/#paths" onClick={(event) => goSection(event, "paths")}>Services</Button>
         <Button className="rt-nav-link" component="a" href="/#managed-it" onClick={(event) => goSection(event, "managed-it")}>Managed IT</Button>
         <Button className="rt-nav-link" component="a" href="/#service-area" onClick={(event) => goSection(event, "service-area")}>Service Area</Button>
-        <Button className="rt-nav-link" type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</Button>
+        <Button className="rt-nav-link rt-business-link" type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</Button>
         <Button className="rt-nav-cta" component="a" href="/#contact" onClick={(event) => goSection(event, "contact")}>Schedule Support</Button>
         <Button className="public-login rt-login-link" type="button" onClick={() => onNavigate("/login")}>
           Client Login
         </Button>
       </nav>
+      <div className="rt-mobile-nav-controls" aria-label="Mobile navigation controls">
+        <Button className="rt-mobile-cta" type="button" onClick={() => goMobileSection("contact")}>
+          Schedule
+        </Button>
+        <Button
+          className="rt-mobile-menu-button"
+          type="button"
+          aria-controls={mobileMenuOpen ? "rt-mobile-menu" : undefined}
+          aria-expanded={mobileMenuOpen ? "true" : undefined}
+          aria-haspopup="menu"
+          onClick={(event) => setMobileMenuAnchor(event.currentTarget)}
+        >
+          <MenuIcon size={17} /> Menu
+        </Button>
+      </div>
+      <MuiMenu
+        id="rt-mobile-menu"
+        anchorEl={mobileMenuAnchor}
+        open={mobileMenuOpen}
+        onClose={closeMobileMenu}
+        className="rt-mobile-menu"
+        slotProps={{
+          paper: {
+            className: "rt-mobile-menu-paper"
+          }
+        }}
+      >
+        <MenuItem onClick={() => goMobileSection("paths")}>Services</MenuItem>
+        <MenuItem onClick={() => goMobileSection("managed-it")}>Managed IT</MenuItem>
+        <MenuItem onClick={() => goMobileSection("service-area")}>Service Area</MenuItem>
+        <MenuItem onClick={() => goMobileRoute("/business-plan")}>Business Plan</MenuItem>
+        <MenuItem onClick={() => goMobileSection("contact")}>Schedule Support</MenuItem>
+        <MenuItem onClick={() => goMobileRoute("/login")}>Client Login</MenuItem>
+      </MuiMenu>
     </header>
   );
 }
@@ -717,9 +776,8 @@ function PublicFooter({ onNavigate }) {
   return (
     <footer className="rt-footer">
       <div className="rt-footer-brand">
-        <BrandMark />
+        <BrandLockup footer />
         <div>
-          <strong>Robbins Technologies</strong>
           <span>IT support for Asheville and Western North Carolina.</span>
         </div>
       </div>
@@ -774,7 +832,7 @@ export function PublicLanding({ onNavigate }) {
                   <BrandMark />
                   <div>
                     <strong>Robbins Technologies</strong>
-                    <span>Serving Asheville & WNC</span>
+                    <span>Serving Asheville and WNC</span>
                   </div>
                 </div>
                 {proofPoints.map((item) => {
@@ -920,7 +978,7 @@ export function PublicLanding({ onNavigate }) {
               </p>
             </div>
             <blockquote>
-              <p>“The goal is simple: fix the issue, explain what changed, and leave the client with a cleaner path forward.”</p>
+              <p>"The goal is simple: fix the issue, explain what changed, and leave the client with a cleaner path forward."</p>
               <cite>Robbins Technologies service standard</cite>
             </blockquote>
           </section>
