@@ -41,6 +41,7 @@ import {
 } from "./components/DashboardSections";
 import { AreaChart, Sparkline } from "./components/Charts";
 import { EmptyState, Panel, StatusPill, TimeBadge } from "./components/Primitives";
+import { BusinessPlanPage, PublicLanding } from "./components/PublicSite";
 
 const emptyForm = {
   name: "",
@@ -67,8 +68,18 @@ const routeTitles = {
 };
 
 function routeFromPath() {
-  const slug = window.location.pathname.replace(/^\/+/, "").split("/")[0];
+  const parts = window.location.pathname.replace(/^\/+/, "").split("/").filter(Boolean);
+  const slug = parts[0] === "dashboard" ? parts[1] : parts[0];
   return routeTitles[slug] ? slug : "overview";
+}
+
+function pageKindFromPath(pathname) {
+  const parts = pathname.replace(/^\/+/, "").split("/").filter(Boolean);
+  if (!parts.length) return "public";
+  if (parts[0] === "business-plan") return "business-plan";
+  if (parts[0] === "login") return "login";
+  if (parts[0] === "dashboard" || routeTitles[parts[0]]) return "dashboard";
+  return "public";
 }
 
 function makeTrend(seed) {
@@ -95,6 +106,7 @@ function buildDnsRows(zones) {
 
 export default function App() {
   const [auth, setAuth] = useState({ loading: true, authenticated: false, user: "" });
+  const [pathState, setPathState] = useState(() => window.location.pathname);
   const [loginForm, setLoginForm] = useState({ username: "jayden.robbins", password: "", remember: true });
   const [loginError, setLoginError] = useState("");
   const [activeNav, setActiveNav] = useState(routeFromPath);
@@ -125,6 +137,7 @@ export default function App() {
   const sites = useMemo(() => [...localSites, ...cloudflareSites], [localSites, cloudflareSites]);
   const selectedSite = sites.find((site) => site.id === selectedSiteId) || sites[0] || null;
   const dnsRows = useMemo(() => buildDnsRows(zones), [zones]);
+  const pageKind = pageKindFromPath(pathState);
 
   const checkAuth = useCallback(async () => {
     try {
@@ -176,15 +189,18 @@ export default function App() {
   }, [checkAuth]);
 
   useEffect(() => {
-    if (auth.authenticated) loadCloudflare();
-  }, [auth.authenticated, loadCloudflare]);
+    if (auth.authenticated && pageKind === "dashboard") loadCloudflare();
+  }, [auth.authenticated, loadCloudflare, pageKind]);
 
   useEffect(() => {
     if (!selectedSiteId && sites[0]) setSelectedSiteId(sites[0].id);
   }, [selectedSiteId, sites]);
 
   useEffect(() => {
-    const onPop = () => setActiveNav(routeFromPath());
+    const onPop = () => {
+      setPathState(window.location.pathname);
+      setActiveNav(routeFromPath());
+    };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
@@ -215,13 +231,30 @@ export default function App() {
     return () => window.removeEventListener("master-control:panel-action", onPanelAction);
   }, []);
 
+  useEffect(() => {
+    if (!auth.loading && auth.authenticated && pageKind === "login") {
+      navigate("overview");
+    }
+  }, [auth.loading, auth.authenticated, pageKind]);
+
   function navigate(page) {
-    const target = page === "overview" ? "/" : `/${page}`;
+    const target = page === "overview" ? "/dashboard" : `/dashboard/${page}`;
     window.history.pushState({}, "", target);
+    setPathState(target);
     setActiveNav(page);
     setCommandOpen(false);
     setNotificationsOpen(false);
     setUserMenuOpen(false);
+  }
+
+  function navigatePublic(path) {
+    window.history.pushState({}, "", path);
+    setPathState(path);
+    if (pageKindFromPath(path) === "dashboard") setActiveNav(routeFromPath());
+    setCommandOpen(false);
+    setNotificationsOpen(false);
+    setUserMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function refreshNow() {
@@ -256,13 +289,14 @@ export default function App() {
     setAuth({ loading: false, authenticated: true, user: data.user || loginForm.username });
     setLoginForm((current) => ({ ...current, password: "" }));
     showToast("Secure session established");
+    navigate("overview");
   }
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
     setAuth({ loading: false, authenticated: false, user: "" });
     setCloudflare({ configured: false, ok: false, apiStatus: "Signed out" });
-    navigate("overview");
+    navigatePublic("/login");
   }
 
   function addSite(event) {
@@ -292,6 +326,14 @@ export default function App() {
     showToast(`${newSite.name} added locally`);
   }
 
+  if (pageKind === "public") {
+    return <PublicLanding onNavigate={navigatePublic} />;
+  }
+
+  if (pageKind === "business-plan") {
+    return <BusinessPlanPage onNavigate={navigatePublic} />;
+  }
+
   if (auth.loading) {
     return <div className="auth-loading"><span className="scan-loader" />Checking secure session</div>;
   }
@@ -303,6 +345,7 @@ export default function App() {
         setForm={setLoginForm}
         error={loginError}
         onSubmit={login}
+        onNavigate={navigatePublic}
       />
     );
   }
@@ -487,7 +530,7 @@ function renderPage(activeNav, context) {
   );
 }
 
-function LoginScreen({ form, setForm, error, onSubmit }) {
+function LoginScreen({ form, setForm, error, onSubmit, onNavigate }) {
   const [resetNotice, setResetNotice] = useState(false);
   return (
     <main className="login-screen">
@@ -500,6 +543,7 @@ function LoginScreen({ form, setForm, error, onSubmit }) {
         </div>
 
         <div className="system-chip"><span className="system-pulse" />All systems operational</div>
+        <button className="login-site-link" type="button" onClick={() => onNavigate("/")}>Back to Robbins Technologies</button>
 
         <form className="login-card" onSubmit={onSubmit}>
           <div className="login-card-header">
