@@ -327,7 +327,7 @@ export default function App() {
   }
 
   if (pageKind === "public") {
-    return <PublicLanding onNavigate={navigatePublic} />;
+    return <PublicLanding onNavigate={navigatePublic} path={pathState} />;
   }
 
   if (pageKind === "business-plan") {

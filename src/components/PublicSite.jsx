@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -180,7 +180,8 @@ const servicePaths = [
     audience: "For households, freelancers, and remote workers",
     summary: "Computer cleanup, Wi-Fi, printers, email, backups, and everyday tech problems handled clearly.",
     includes: ["Slow computer repair", "Printer and Wi-Fi help", "Account and email setup"],
-    action: "Fix home tech"
+    action: "Fix home tech",
+    path: "/contact"
   },
   {
     title: "Business Setup",
@@ -188,7 +189,8 @@ const servicePaths = [
     audience: "For new offices, new hires, and small teams",
     summary: "Workstations, Microsoft 365 or Google Workspace, shared files, printers, routers, and onboarding.",
     includes: ["New device rollout", "Email and file sharing", "Network and printer setup"],
-    action: "Plan a setup"
+    action: "Plan a setup",
+    path: "/business-email-setup"
   },
   {
     title: "Managed IT",
@@ -196,7 +198,8 @@ const servicePaths = [
     audience: "For teams that need ongoing support",
     summary: "Monthly care, priority response, health checks, vendor coordination, security basics, and documentation.",
     includes: ["Priority support lane", "Monthly health checks", "Backup and security review"],
-    action: "See monthly care"
+    action: "See monthly care",
+    path: "/small-business-it-support-asheville"
   }
 ];
 
@@ -295,6 +298,311 @@ const serviceTabs = [
     ]
   }
 ];
+
+const homePageMeta = {
+  path: "/",
+  metaTitle: "Robbins Technologies | Asheville IT Support, Cybersecurity, Websites & Automation",
+  metaDescription: "Fast local IT support, cybersecurity, websites, hosting, and automation for small businesses in Asheville and northwestern North Carolina."
+};
+
+const primaryServicePages = [
+  {
+    path: "/small-business-it-support-asheville",
+    navLabel: "IT Support",
+    shortTitle: "Small Business IT",
+    title: "Small business IT support in Asheville, NC.",
+    metaTitle: "Small Business IT Support Asheville NC | Robbins Technologies",
+    metaDescription: "Remote and on-site IT support for Asheville small businesses, including computers, users, Wi-Fi, email, backups, vendors, and monthly care.",
+    icon: ShieldCheck,
+    asset: iconSupport,
+    serviceType: "Small Business IT Support",
+    intro: "Robbins Technologies gives Asheville teams a practical support lane for the daily problems that slow work down.",
+    problem: "Computers, email, Wi-Fi, printers, shared files, vendors, and user access should not eat your week.",
+    primaryAction: "Schedule Free IT Review",
+    quickWins: ["Remote troubleshooting", "On-site repair when needed", "User and device setup", "Vendor coordination"],
+    deliverables: [
+      "A first-pass review of users, devices, accounts, and urgent issues.",
+      "Plain-language recommendations for fixing what is unstable now.",
+      "A support path for recurring maintenance, security basics, and future setup work."
+    ],
+    outcomes: ["Less downtime", "Cleaner documentation", "A clear place to ask for help"],
+    related: ["/business-email-setup", "/network-wifi-setup", "/data-backup-recovery"],
+    faqs: [
+      {
+        question: "Do you support very small offices?",
+        answer: "Yes. The service is built for solo operators, freelancers, and small teams that need dependable help without hiring internal IT."
+      },
+      {
+        question: "Can support start remotely?",
+        answer: "Yes. Most triage starts remote. On-site service is scheduled when hardware, cabling, Wi-Fi coverage, or physical setup needs hands-on work."
+      }
+    ]
+  },
+  {
+    path: "/cybersecurity-asheville-nc",
+    navLabel: "Cybersecurity",
+    shortTitle: "Cybersecurity",
+    title: "Cybersecurity setup for Asheville small businesses.",
+    metaTitle: "Cybersecurity Asheville NC | Small Business Security Setup",
+    metaDescription: "Security setup for Asheville businesses, including account protection, MFA, password cleanup, backups, device hardening, and security reviews.",
+    icon: Lock,
+    asset: iconSecurity,
+    serviceType: "Cybersecurity Setup",
+    intro: "Good security starts with the basics done correctly: accounts, passwords, updates, backups, permissions, and recovery paths.",
+    problem: "Small businesses are often exposed by reused passwords, unprotected email, missing backups, and devices that have not been reviewed in years.",
+    primaryAction: "Request Security Review",
+    quickWins: ["MFA setup", "Password cleanup", "Backup review", "Device hardening"],
+    deliverables: [
+      "A practical security checklist for your accounts, devices, and core business data.",
+      "Help turning on MFA, cleaning up access, and reducing obvious risk.",
+      "A backup and recovery conversation before a device failure or account issue becomes a crisis."
+    ],
+    outcomes: ["Fewer account surprises", "Better recovery options", "Security steps a small team can actually maintain"],
+    related: ["/data-backup-recovery", "/business-email-setup", "/small-business-it-support-asheville"],
+    faqs: [
+      {
+        question: "Is this a full enterprise security audit?",
+        answer: "No. This is practical small-business security setup and review. The goal is to close common gaps quickly and create a better support path."
+      },
+      {
+        question: "Can you help after a suspicious email or account issue?",
+        answer: "Yes. Call for urgent triage if an email account, device, or login looks compromised."
+      }
+    ]
+  },
+  {
+    path: "/website-design-hosting-asheville",
+    navLabel: "Websites",
+    shortTitle: "Websites",
+    title: "Website design, hosting, and local SEO for Asheville businesses.",
+    metaTitle: "Website Design Asheville NC | Hosting, SEO & Business Automation",
+    metaDescription: "Business websites, hosting, forms, Cloudflare setup, local SEO, and automation for Asheville and western North Carolina companies.",
+    icon: Monitor,
+    asset: iconWeb,
+    serviceType: "Website Design and Hosting",
+    intro: "A business website should bring in leads, explain the offer clearly, and connect to the way the business actually operates.",
+    problem: "Most small-business sites look fine but miss the basics: clear calls to action, local service pages, fast hosting, forms, analytics, and follow-up.",
+    primaryAction: "Plan Website Project",
+    quickWins: ["Local landing pages", "Fast hosting", "Lead forms", "Cloudflare setup"],
+    deliverables: [
+      "A modern React website or cleanup plan for an existing site.",
+      "Hosting, DNS, SSL, contact forms, analytics, sitemap, and local SEO basics.",
+      "A conversion path that makes it easy for customers to call, schedule, or request a quote."
+    ],
+    outcomes: ["A clearer offer", "Better local relevance", "Lead capture that is easier to follow up"],
+    related: ["/automation-ai-tools", "/small-business-it-support-asheville", "/business-email-setup"],
+    faqs: [
+      {
+        question: "Can you rebuild an existing website?",
+        answer: "Yes. Existing sites can be cleaned up, rebuilt, moved to better hosting, or expanded with forms, service pages, and automation."
+      },
+      {
+        question: "Do you handle domain and Cloudflare setup?",
+        answer: "Yes. Website projects can include DNS, SSL, Cloudflare Pages, redirects, and basic performance cleanup."
+      }
+    ]
+  },
+  {
+    path: "/business-email-setup",
+    navLabel: "Business Email",
+    shortTitle: "Email Setup",
+    title: "Business email setup for teams that need clean accounts and access.",
+    metaTitle: "Business Email Setup | Google Workspace & Microsoft 365 Asheville",
+    metaDescription: "Business email setup, Google Workspace, Microsoft 365, DNS records, user access, security, and shared mailbox support for Asheville businesses.",
+    icon: Cloud,
+    asset: iconCloud,
+    serviceType: "Business Email Setup",
+    intro: "Professional email should be secure, organized, and easy to manage as people join or leave the business.",
+    problem: "Personal inboxes, missing DNS records, weak passwords, and scattered access make a company look less professional and harder to protect.",
+    primaryAction: "Set Up Business Email",
+    quickWins: ["Google Workspace", "Microsoft 365", "DNS records", "Shared access"],
+    deliverables: [
+      "Mailbox setup or cleanup for Google Workspace or Microsoft 365.",
+      "DNS help for MX, SPF, DKIM, and DMARC records when access is available.",
+      "User, alias, shared mailbox, and security setup recommendations."
+    ],
+    outcomes: ["Professional email", "Cleaner access", "Fewer login headaches"],
+    related: ["/cybersecurity-asheville-nc", "/small-business-it-support-asheville", "/website-design-hosting-asheville"],
+    faqs: [
+      {
+        question: "Can you migrate from personal email?",
+        answer: "Yes. The first step is reviewing the current setup, then planning accounts, records, and access so the move is not chaotic."
+      },
+      {
+        question: "Can you help with DNS records?",
+        answer: "Yes. Robbins Technologies can help configure email DNS records when the right domain access is available."
+      }
+    ]
+  },
+  {
+    path: "/network-wifi-setup",
+    navLabel: "Network & Wi-Fi",
+    shortTitle: "Network Wi-Fi",
+    title: "Network and Wi-Fi setup for Asheville offices and workspaces.",
+    metaTitle: "Network & Wi-Fi Setup Asheville NC | Robbins Technologies",
+    metaDescription: "Router, Wi-Fi, printer, workstation, and small office network setup for Asheville and western North Carolina businesses.",
+    icon: Wifi,
+    asset: iconServer,
+    serviceType: "Network and Wi-Fi Setup",
+    intro: "Reliable Wi-Fi and clean network setup make every other part of the business easier to run.",
+    problem: "Spotty coverage, unmanaged routers, printer issues, mystery cables, and weak passwords cause daily frustration.",
+    primaryAction: "Fix Wi-Fi or Network",
+    quickWins: ["Router review", "Wi-Fi coverage", "Printer setup", "Network documentation"],
+    deliverables: [
+      "A practical review of routers, access points, printers, and connected devices.",
+      "Setup or cleanup for office Wi-Fi, guest access, passwords, and basic documentation.",
+      "A recommendation for upgrades when current hardware is causing the problem."
+    ],
+    outcomes: ["More reliable connections", "Cleaner printer setup", "Less guessing when something breaks"],
+    related: ["/small-business-it-support-asheville", "/business-email-setup", "/data-backup-recovery"],
+    faqs: [
+      {
+        question: "Do you install enterprise network systems?",
+        answer: "Robbins Technologies focuses on practical small-office setup, cleanup, and troubleshooting. Larger projects can be scoped with vendor coordination."
+      },
+      {
+        question: "Can you help with printers?",
+        answer: "Yes. Printer issues are often network issues, driver issues, or access problems, and they fit naturally into setup visits."
+      }
+    ]
+  },
+  {
+    path: "/data-backup-recovery",
+    navLabel: "Backup",
+    shortTitle: "Backup Recovery",
+    title: "Data backup and recovery planning for small businesses.",
+    metaTitle: "Data Backup & Recovery Asheville NC | Robbins Technologies",
+    metaDescription: "Backup setup, recovery planning, file protection, and practical data recovery guidance for Asheville small businesses and home offices.",
+    icon: Server,
+    asset: iconBackup,
+    serviceType: "Data Backup and Recovery",
+    intro: "Backups are boring until they are the only thing that matters. Robbins Technologies helps make recovery less of a gamble.",
+    problem: "Files often live on one laptop, one desktop, one external drive, or one cloud account nobody has reviewed.",
+    primaryAction: "Review Backup Plan",
+    quickWins: ["File backup setup", "Cloud storage review", "Device failure triage", "Recovery planning"],
+    deliverables: [
+      "A review of where important files live and what would happen if a device failed.",
+      "Backup setup guidance for computers, business files, website assets, and critical documents.",
+      "Recovery next steps for failed devices, missing files, or unclear cloud storage."
+    ],
+    outcomes: ["Better file protection", "Clearer recovery steps", "Less panic when hardware fails"],
+    related: ["/cybersecurity-asheville-nc", "/small-business-it-support-asheville", "/business-email-setup"],
+    faqs: [
+      {
+        question: "Can every failed drive be recovered?",
+        answer: "No. Recovery depends on the failure. Robbins Technologies can triage the situation and recommend next steps, including specialist recovery when needed."
+      },
+      {
+        question: "Do backups work for home offices?",
+        answer: "Yes. Home offices and freelancers often need backup planning just as much as offices with multiple employees."
+      }
+    ]
+  },
+  {
+    path: "/automation-ai-tools",
+    navLabel: "Automation",
+    shortTitle: "Automation",
+    title: "Automation and practical AI tools for small business workflows.",
+    metaTitle: "Automation & AI Tools Asheville NC | Robbins Technologies",
+    metaDescription: "Workflow automation, forms, dashboards, notifications, AI tools, and business process cleanup for Asheville small businesses.",
+    icon: Code,
+    asset: iconCode,
+    serviceType: "Automation and AI Tools",
+    intro: "Good automation is not flashy. It removes repetitive steps, catches details, and makes follow-up easier.",
+    problem: "Many small businesses lose time copying form submissions, checking emails, updating spreadsheets, and repeating the same admin steps.",
+    primaryAction: "Discuss Automation",
+    quickWins: ["Lead forms", "Dashboards", "Notifications", "AI helpers"],
+    deliverables: [
+      "A workflow review to find repetitive tasks worth automating.",
+      "Forms, dashboards, notifications, and lightweight tools built around the business process.",
+      "Practical AI guidance that supports work instead of adding noise."
+    ],
+    outcomes: ["Faster follow-up", "Cleaner operations", "Less repeated admin work"],
+    related: ["/website-design-hosting-asheville", "/small-business-it-support-asheville", "/business-email-setup"],
+    faqs: [
+      {
+        question: "Can automation connect to a website?",
+        answer: "Yes. Website forms can connect to email, dashboards, notifications, and follow-up workflows."
+      },
+      {
+        question: "Do you build custom dashboards?",
+        answer: "Yes. Robbins Technologies can build lightweight dashboards for leads, status, website operations, and business workflows."
+      }
+    ]
+  }
+];
+
+const serviceAreaPages = [
+  {
+    path: "/it-support-hendersonville",
+    city: "Hendersonville",
+    county: "Henderson County",
+    nearby: "Flat Rock, Mills River, Fletcher, and surrounding areas",
+    title: "IT support in Hendersonville, NC.",
+    metaTitle: "IT Support Hendersonville NC | Robbins Technologies",
+    metaDescription: "Remote and on-site IT support for Hendersonville small businesses, including computers, email, Wi-Fi, backup, cybersecurity, and websites.",
+    intro: "Robbins Technologies supports Hendersonville businesses with remote-first triage and scheduled on-site help when hands-on work is needed."
+  },
+  {
+    path: "/it-support-weaverville",
+    city: "Weaverville",
+    county: "Buncombe County",
+    nearby: "Woodfin, Mars Hill, Asheville, and surrounding areas",
+    title: "IT support in Weaverville, NC.",
+    metaTitle: "IT Support Weaverville NC | Robbins Technologies",
+    metaDescription: "Small business IT support for Weaverville, including remote help, on-site service, Wi-Fi, email, backup, security, and website support.",
+    intro: "For Weaverville teams, Robbins Technologies provides clear support for devices, accounts, networks, websites, and recurring IT needs."
+  },
+  {
+    path: "/it-support-boone",
+    city: "Boone",
+    county: "Watauga County",
+    nearby: "Blowing Rock, Banner Elk, Deep Gap, and nearby northwest NC communities",
+    title: "IT support in Boone and northwestern North Carolina.",
+    metaTitle: "IT Support Boone NC | Remote & Small Business IT Help",
+    metaDescription: "Remote IT support and scheduled technology help for Boone and northwestern North Carolina businesses, including email, security, backup, and websites.",
+    intro: "Robbins Technologies serves Boone and northwestern North Carolina with practical remote support, setup planning, and business technology help."
+  },
+  {
+    path: "/it-support-black-mountain",
+    city: "Black Mountain",
+    county: "Buncombe County",
+    nearby: "Swannanoa, Montreat, Asheville, and nearby communities",
+    title: "IT support in Black Mountain, NC.",
+    metaTitle: "IT Support Black Mountain NC | Robbins Technologies",
+    metaDescription: "Remote and on-site IT support for Black Mountain businesses, including computers, Wi-Fi, email, backups, security, and website support.",
+    intro: "Robbins Technologies helps Black Mountain businesses get clear, responsive support for the technology that keeps daily work moving."
+  }
+];
+
+const cityPageServices = [
+  "Remote and on-site IT support",
+  "Computer repair and workstation setup",
+  "Business email and account setup",
+  "Network and Wi-Fi troubleshooting",
+  "Backup and cybersecurity basics",
+  "Website, hosting, and automation help"
+];
+
+const caseStudy = {
+  title: "Colburn Outdoor lead system",
+  summary: "A local business website project built as more than a brochure: quote form, estimate calculator, dashboard direction, Cloudflare deployment, and a cleaner path toward business automation.",
+  wins: ["Lead capture", "Estimate flow", "Deployment setup", "Dashboard direction"]
+};
+
+const servicePageByPath = Object.fromEntries(primaryServicePages.map((page) => [page.path, page]));
+const serviceAreaPageByPath = Object.fromEntries(serviceAreaPages.map((page) => [page.path, page]));
+const servicePageByTitle = {
+  "Managed IT Support": "/small-business-it-support-asheville",
+  "Business Email Setup": "/business-email-setup",
+  "Network & Wi-Fi Setup": "/network-wifi-setup",
+  "Cybersecurity Setup": "/cybersecurity-asheville-nc",
+  "Data Backup & Recovery": "/data-backup-recovery",
+  "Emergency IT Help": "/contact",
+  "Website Design & Hosting": "/website-design-hosting-asheville",
+  "Automation & AI Tools": "/automation-ai-tools",
+  "Computer Repair / Device Setup": "/contact"
+};
 
 const appointmentTypes = [
   "Free consultation",
@@ -451,6 +759,125 @@ const reveal = {
   visible: { opacity: 1, y: 0 }
 };
 
+function normalizePublicPath(path) {
+  const normalized = (path || "/").split("?")[0].split("#")[0].replace(/\/+$/, "");
+  return normalized || "/";
+}
+
+function publicHref(path) {
+  const normalized = normalizePublicPath(path);
+  return normalized === "/" ? "/" : `${normalized}/`;
+}
+
+function upsertMeta(selector, attributes) {
+  let element = document.head.querySelector(selector);
+  if (!element) {
+    element = document.createElement(selector.startsWith("link") ? "link" : "meta");
+    document.head.appendChild(element);
+  }
+  Object.entries(attributes).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+}
+
+function buildBusinessSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    name: "Robbins Technologies",
+    url: "https://robbinstechnologies.com/",
+    logo: "https://robbinstechnologies.com/robbins-technologies-logo.png",
+    image: "https://robbinstechnologies.com/robbins-technologies-it-support-hero.jpg",
+    email: "support@robbinstechnologies.com",
+    telephone: "+18284366869",
+    priceRange: "$$",
+    description: homePageMeta.metaDescription,
+    areaServed: [
+      "Asheville NC",
+      "Buncombe County NC",
+      "Hendersonville NC",
+      "Weaverville NC",
+      "Boone NC",
+      "Black Mountain NC",
+      "Western North Carolina",
+      "Northwestern North Carolina"
+    ],
+    knowsAbout: primaryServicePages.map((page) => page.serviceType),
+    makesOffer: primaryServicePages.map((page) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: page.serviceType,
+        areaServed: "Asheville and northwestern North Carolina"
+      }
+    }))
+  };
+}
+
+function buildPageSchema(page) {
+  const businessSchema = buildBusinessSchema();
+  const graph = [businessSchema];
+
+  if (page?.serviceType) {
+    graph.push({
+      "@type": "Service",
+      name: page.serviceType,
+      provider: {
+        "@type": "ProfessionalService",
+        name: "Robbins Technologies",
+        telephone: "+18284366869",
+        url: "https://robbinstechnologies.com/"
+      },
+      areaServed: ["Asheville NC", "Western North Carolina", "Northwestern North Carolina"],
+      description: page.metaDescription,
+      url: `https://robbinstechnologies.com${page.path}`
+    });
+  }
+
+  if (page?.faqs?.length) {
+    graph.push({
+      "@type": "FAQPage",
+      mainEntity: page.faqs.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer
+        }
+      }))
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph
+  };
+}
+
+function usePageMeta(page) {
+  useEffect(() => {
+    const activePage = page || homePageMeta;
+    const url = `https://robbinstechnologies.com${publicHref(activePage.path)}`;
+    document.title = activePage.metaTitle;
+    upsertMeta('meta[name="description"]', { name: "description", content: activePage.metaDescription });
+    upsertMeta('meta[property="og:title"]', { property: "og:title", content: activePage.metaTitle });
+    upsertMeta('meta[property="og:description"]', { property: "og:description", content: activePage.metaDescription });
+    upsertMeta('meta[property="og:url"]', { property: "og:url", content: url });
+    upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: activePage.metaTitle });
+    upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: activePage.metaDescription });
+    upsertMeta('link[rel="canonical"]', { rel: "canonical", href: url });
+
+    let schema = document.head.querySelector("#rt-page-schema");
+    if (!schema) {
+      schema = document.createElement("script");
+      schema.id = "rt-page-schema";
+      schema.type = "application/ld+json";
+      document.head.appendChild(schema);
+    }
+    schema.textContent = JSON.stringify(buildPageSchema(activePage));
+  }, [page]);
+}
+
 function scrollToSection(id, onNavigate) {
   if (window.location.pathname !== "/") onNavigate("/");
   window.setTimeout(() => {
@@ -480,14 +907,18 @@ function BrandLockup({ footer = false }) {
 
 function PublicNav({ onNavigate, compact = false }) {
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
+  const [servicesMenuAnchor, setServicesMenuAnchor] = useState(null);
   const mobileMenuOpen = Boolean(mobileMenuAnchor);
+  const servicesMenuOpen = Boolean(servicesMenuAnchor);
 
   const goSection = (event, id) => {
     event.preventDefault();
+    setServicesMenuAnchor(null);
     scrollToSection(id, onNavigate);
   };
 
   const closeMobileMenu = () => setMobileMenuAnchor(null);
+  const closeServicesMenu = () => setServicesMenuAnchor(null);
 
   const goMobileSection = (id) => {
     closeMobileMenu();
@@ -496,6 +927,11 @@ function PublicNav({ onNavigate, compact = false }) {
 
   const goMobileRoute = (path) => {
     closeMobileMenu();
+    onNavigate(path);
+  };
+
+  const goRoute = (path) => {
+    closeServicesMenu();
     onNavigate(path);
   };
 
@@ -509,16 +945,44 @@ function PublicNav({ onNavigate, compact = false }) {
         </span>
       </button>
       <nav aria-label="Public navigation">
-        <Button className="rt-nav-link" component="a" href="/#paths" onClick={(event) => goSection(event, "paths")}>Services</Button>
+        <Button
+          className="rt-nav-link"
+          type="button"
+          aria-controls={servicesMenuOpen ? "rt-services-menu" : undefined}
+          aria-expanded={servicesMenuOpen ? "true" : undefined}
+          aria-haspopup="menu"
+          onClick={(event) => setServicesMenuAnchor(event.currentTarget)}
+        >
+          Services <ChevronDown size={15} />
+        </Button>
         <Button className="rt-nav-link" component="a" href="/#managed-it" onClick={(event) => goSection(event, "managed-it")}>Managed IT</Button>
         <Button className="rt-nav-link" component="a" href="/#service-area" onClick={(event) => goSection(event, "service-area")}>Service Area</Button>
+        <Button className="rt-nav-link" type="button" onClick={() => onNavigate("/about")}>About</Button>
         <Button className="rt-nav-link rt-business-link" type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</Button>
         <Button className="rt-phone-link" component="a" href={BUSINESS_PHONE_TEL}><PhoneCall size={16} /> {BUSINESS_PHONE_DISPLAY}</Button>
-        <Button className="rt-nav-cta" component="a" href="/#contact" onClick={(event) => goSection(event, "contact")}>Schedule Support</Button>
+        <Button className="rt-nav-cta" type="button" onClick={() => onNavigate("/contact")}>Schedule Support</Button>
         <Button className="public-login rt-login-link" type="button" onClick={() => onNavigate("/login")}>
           Client Login
         </Button>
       </nav>
+      <MuiMenu
+        id="rt-services-menu"
+        anchorEl={servicesMenuAnchor}
+        open={servicesMenuOpen}
+        onClose={closeServicesMenu}
+        className="rt-services-menu"
+        slotProps={{
+          paper: {
+            className: "rt-services-menu-paper"
+          }
+        }}
+      >
+        <MenuItem component="a" href="/#paths" onClick={(event) => goSection(event, "paths")}>All services</MenuItem>
+        {primaryServicePages.map((page) => (
+          <MenuItem key={page.path} onClick={() => goRoute(page.path)}>{page.navLabel}</MenuItem>
+        ))}
+        <MenuItem onClick={() => goRoute("/contact")}>Schedule support</MenuItem>
+      </MuiMenu>
       <div className="rt-mobile-nav-controls" aria-label="Mobile navigation controls">
         <Button className="rt-mobile-cta" component="a" href={BUSINESS_PHONE_TEL}>
           Call
@@ -547,11 +1011,15 @@ function PublicNav({ onNavigate, compact = false }) {
         }}
       >
         <MenuItem onClick={() => goMobileSection("paths")}>Services</MenuItem>
+        {primaryServicePages.slice(0, 5).map((page) => (
+          <MenuItem key={page.path} onClick={() => goMobileRoute(page.path)}>{page.navLabel}</MenuItem>
+        ))}
         <MenuItem onClick={() => goMobileSection("managed-it")}>Managed IT</MenuItem>
         <MenuItem onClick={() => goMobileSection("service-area")}>Service Area</MenuItem>
+        <MenuItem onClick={() => goMobileRoute("/about")}>About</MenuItem>
         <MenuItem onClick={() => goMobileRoute("/business-plan")}>Business Plan</MenuItem>
         <MenuItem component="a" href={BUSINESS_PHONE_TEL}>Call {BUSINESS_PHONE_DISPLAY}</MenuItem>
-        <MenuItem onClick={() => goMobileSection("contact")}>Schedule Support</MenuItem>
+        <MenuItem onClick={() => goMobileRoute("/contact")}>Schedule Support</MenuItem>
         <MenuItem onClick={() => goMobileRoute("/login")}>Client Login</MenuItem>
       </MuiMenu>
     </header>
@@ -958,7 +1426,7 @@ function ServicesTabs() {
                 <ServiceCardIcon service={service} />
                 <h3>{service.title}</h3>
                 <p>{service.detail}</p>
-                <a href="#contact">Request this <ChevronRight size={15} /></a>
+                <a href={publicHref(servicePageByTitle[service.title] || "/contact")}>Open details <ChevronRight size={15} /></a>
               </motion.article>
             );
           })}
@@ -1037,7 +1505,7 @@ function ServicePathCards() {
             <div className="rt-path-list">
               {path.includes.map((item) => <span key={item}><Check size={15} />{item}</span>)}
             </div>
-            <Button className="rt-path-button" component="a" href="#contact">
+            <Button className="rt-path-button" component="a" href={publicHref(path.path)}>
               {path.action} <ArrowRight size={16} />
             </Button>
           </motion.article>
@@ -1088,9 +1556,15 @@ function PublicFooter({ onNavigate }) {
       </div>
       <div className="rt-footer-links">
         <a href={BUSINESS_PHONE_TEL}>Call {BUSINESS_PHONE_DISPLAY}</a>
-        <a href="#paths">Services</a>
-        <a href="#plans">Plans</a>
-        <a href="#service-area">Service Area</a>
+        {primaryServicePages.slice(0, 5).map((page) => (
+          <a key={page.path} href={publicHref(page.path)}>{page.navLabel}</a>
+        ))}
+        {serviceAreaPages.slice(0, 4).map((page) => (
+          <a key={page.path} href={publicHref(page.path)}>{page.city}</a>
+        ))}
+        <a href="/#plans">Plans</a>
+        <a href="/contact/">Contact</a>
+        <a href="/about/">About</a>
         <button type="button" onClick={() => onNavigate("/business-plan")}>Business Plan</button>
         <button type="button" onClick={() => onNavigate("/login")}>Client Login</button>
       </div>
@@ -1098,12 +1572,440 @@ function PublicFooter({ onNavigate }) {
   );
 }
 
-export function PublicLanding({ onNavigate }) {
+function PublicPageShell({ onNavigate, compact = false, className = "", children }) {
   return (
     <ThemeProvider theme={publicTheme}>
-      <div className="public-site rt-public-site">
-        <PublicNav onNavigate={onNavigate} />
+      <div className={`public-site rt-public-site ${className}`}>
+        <PublicNav onNavigate={onNavigate} compact={compact} />
+        {children}
+        <PublicFooter onNavigate={onNavigate} />
+      </div>
+    </ThemeProvider>
+  );
+}
 
+function PainSection() {
+  const pains = [
+    "Email, Wi-Fi, or a workstation outage stops the day cold.",
+    "New hires need accounts, devices, printers, and access set up correctly.",
+    "A website or form should create leads, not just sit online.",
+    "Backups and security need a plan before something fails."
+  ];
+
+  return (
+    <section className="public-band rt-section rt-pain-section">
+      <SectionHeading
+        kicker="The Problem"
+        title="Tech problems should not become your unpaid second job."
+      >
+        Robbins Technologies is built for local businesses that need fast triage, useful fixes, and a support path that does not disappear after the first call.
+      </SectionHeading>
+      <div className="rt-pain-grid">
+        {pains.map((pain, index) => (
+          <article key={pain}>
+            <span>{index + 1}</span>
+            <p>{pain}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ServiceLinksSection() {
+  return (
+    <section className="public-band rt-section rt-seo-links-section">
+      <SectionHeading
+        kicker="Service Pages"
+        title="Dedicated help for the exact problem you searched for."
+      >
+        Each service page is written around a real local need, so clients can move from search to the right next step faster.
+      </SectionHeading>
+      <div className="rt-seo-link-grid">
+        {primaryServicePages.map((page) => {
+          const Icon = page.icon;
+          return (
+            <a key={page.path} className="rt-seo-link-card" href={publicHref(page.path)}>
+              <span><Icon size={20} /></span>
+              <strong>{page.shortTitle}</strong>
+              <p>{page.metaDescription}</p>
+              <small>Open page <ArrowRight size={14} /></small>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function CaseStudySection() {
+  return (
+    <section className="rt-case-study-band">
+      <div className="public-band rt-section rt-case-study">
+        <div className="rt-case-copy">
+          <BadgeCheck size={24} />
+          <h2>{caseStudy.title}</h2>
+          <p>{caseStudy.summary}</p>
+          <Button className="public-secondary rt-secondary" component="a" href="/website-design-hosting-asheville/" variant="outlined">
+            Build a lead system <ArrowRight size={17} />
+          </Button>
+        </div>
+        <div className="rt-case-board" aria-label="Case study project wins">
+          {caseStudy.wins.map((win) => (
+            <span key={win}><Check size={16} />{win}</span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhyRobbinsSection() {
+  const points = [
+    {
+      title: "Local response without corporate runaround",
+      detail: "A clear support lane for Asheville and WNC clients who need a real person to take ownership.",
+      icon: MapPin
+    },
+    {
+      title: "Business-first fixes",
+      detail: "Support is scoped around the work being blocked: calls, forms, email, networks, devices, websites, and follow-up.",
+      icon: Target
+    },
+    {
+      title: "Security and documentation included",
+      detail: "The goal is not only to fix the issue, but to leave the setup easier to support next time.",
+      icon: ClipboardList
+    }
+  ];
+
+  return (
+    <section className="public-band rt-section rt-why-section">
+      <SectionHeading
+        kicker="Why Robbins Technologies"
+        title="Professional IT help with a local operator mindset."
+      >
+        The site, the support process, and the dashboard are all designed around one thing: helping small businesses get control of their technology.
+      </SectionHeading>
+      <div className="rt-why-grid">
+        {points.map((point) => {
+          const Icon = point.icon;
+          return (
+            <article key={point.title}>
+              <Icon size={22} />
+              <h3>{point.title}</h3>
+              <p>{point.detail}</p>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function RelatedLinks({ paths = [] }) {
+  const pages = paths.map((path) => servicePageByPath[path] || serviceAreaPageByPath[path]).filter(Boolean);
+  if (!pages.length) return null;
+
+  return (
+    <div className="rt-related-grid">
+      {pages.map((page) => {
+        const Icon = page.icon || MapPin;
+        return (
+          <a key={page.path} href={publicHref(page.path)}>
+            <Icon size={18} />
+            <strong>{page.shortTitle || page.city}</strong>
+            <span>{page.metaDescription}</span>
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
+function PageFaqs({ items = [] }) {
+  if (!items.length) return null;
+  return (
+    <div className="rt-page-faqs">
+      {items.map((item) => (
+        <Accordion className="rt-faq-item" key={item.question} disableGutters elevation={0}>
+          <AccordionSummary className="rt-faq-button" expandIcon={<ChevronDown size={18} />}>
+            {item.question}
+          </AccordionSummary>
+          <AccordionDetails className="rt-faq-panel">{item.answer}</AccordionDetails>
+        </Accordion>
+      ))}
+    </div>
+  );
+}
+
+function ServiceDetailPage({ page, onNavigate }) {
+  usePageMeta(page);
+  const Icon = page.icon;
+
+  return (
+    <PublicPageShell onNavigate={onNavigate} compact className="rt-service-detail-site">
+      <main className="rt-detail-page">
+        <section className="rt-page-hero">
+          <div>
+            <h1>{page.title}</h1>
+            <p>{page.intro}</p>
+            <div className="rt-page-actions">
+              <Button className="public-primary rt-primary" component="a" href="#contact" variant="contained">
+                {page.primaryAction} <ArrowRight size={17} />
+              </Button>
+              <Button className="public-secondary rt-secondary" component="a" href={BUSINESS_PHONE_TEL} variant="outlined">
+                Call {BUSINESS_PHONE_DISPLAY} <PhoneCall size={17} />
+              </Button>
+            </div>
+          </div>
+          <aside className="rt-page-hero-card">
+            <ServiceCardIcon service={page} />
+            <strong>{page.serviceType}</strong>
+            <p>{page.problem}</p>
+          </aside>
+        </section>
+
+        <section className="rt-detail-grid">
+          <article className="rt-detail-panel">
+            <Icon size={22} />
+            <h2>What gets handled</h2>
+            <div className="rt-chip-list">
+              {page.quickWins.map((item) => <span key={item}><Check size={15} />{item}</span>)}
+            </div>
+          </article>
+          <article className="rt-detail-panel">
+            <ClipboardList size={22} />
+            <h2>What you get</h2>
+            <ul>
+              {page.deliverables.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </article>
+          <article className="rt-detail-panel">
+            <Target size={22} />
+            <h2>Result</h2>
+            <ul>
+              {page.outcomes.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </article>
+        </section>
+
+        <section className="rt-local-proof">
+          <div>
+            <h2>Built for Asheville and northwestern North Carolina.</h2>
+            <p>Remote support starts quickly, and on-site service is scheduled when the fix needs hands-on access.</p>
+          </div>
+          <div className="rt-chip-list">
+            {serviceAreas.slice(0, 9).map((area) => <span key={area}><MapPin size={14} />{area}</span>)}
+          </div>
+        </section>
+
+        <section className="rt-detail-grid two">
+          <article className="rt-detail-panel">
+            <h2>Related services</h2>
+            <RelatedLinks paths={page.related} />
+          </article>
+          <article className="rt-detail-panel">
+            <h2>Common questions</h2>
+            <PageFaqs items={page.faqs} />
+          </article>
+        </section>
+
+        <section className="rt-contact-section rt-detail-contact" id="contact">
+          <div>
+            <SectionHeading
+              kicker="Start Here"
+              title={`Request ${page.shortTitle.toLowerCase()} help.`}
+            >
+              Send the details, or call now if the issue is urgent.
+            </SectionHeading>
+            <div className="rt-contact-methods">
+              <Button component="a" href={BUSINESS_PHONE_TEL}><PhoneCall size={16} /> {BUSINESS_PHONE_DISPLAY}</Button>
+              <Button component="a" href="mailto:support@robbinstechnologies.com"><Mail size={16} /> support@robbinstechnologies.com</Button>
+            </div>
+          </div>
+          <SupportRequestForm />
+        </section>
+      </main>
+    </PublicPageShell>
+  );
+}
+
+function ServiceAreaDetailPage({ page, onNavigate }) {
+  usePageMeta(page);
+
+  return (
+    <PublicPageShell onNavigate={onNavigate} compact className="rt-area-detail-site">
+      <main className="rt-detail-page">
+        <section className="rt-page-hero rt-area-page-hero">
+          <div>
+            <h1>{page.title}</h1>
+            <p>{page.intro}</p>
+            <div className="rt-page-actions">
+              <Button className="public-primary rt-primary" component="a" href="#contact" variant="contained">
+                Schedule local IT help <ArrowRight size={17} />
+              </Button>
+              <Button className="public-secondary rt-secondary" component="a" href={BUSINESS_PHONE_TEL} variant="outlined">
+                Call {BUSINESS_PHONE_DISPLAY} <PhoneCall size={17} />
+              </Button>
+            </div>
+          </div>
+          <ServiceAreaMap />
+        </section>
+
+        <section className="rt-detail-grid two">
+          <article className="rt-detail-panel">
+            <MapPin size={22} />
+            <h2>{page.city} coverage</h2>
+            <p>Serving {page.city}, {page.county}, and nearby communities including {page.nearby}.</p>
+          </article>
+          <article className="rt-detail-panel">
+            <Wrench size={22} />
+            <h2>Common support needs</h2>
+            <div className="rt-chip-list">
+              {cityPageServices.map((item) => <span key={item}><Check size={15} />{item}</span>)}
+            </div>
+          </article>
+        </section>
+
+        <section className="rt-detail-grid two">
+          <article className="rt-detail-panel">
+            <h2>Core service pages</h2>
+            <RelatedLinks paths={primaryServicePages.slice(0, 4).map((item) => item.path)} />
+          </article>
+          <article className="rt-detail-panel">
+            <h2>How local help starts</h2>
+            <ul>
+              <li>Call or send a request with the business impact and urgency.</li>
+              <li>Start remote if the issue can be handled safely online.</li>
+              <li>Schedule on-site support when the network, device, or office setup needs hands-on work.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section className="rt-contact-section rt-detail-contact" id="contact">
+          <div>
+            <SectionHeading
+              kicker="Local Request"
+              title={`Request IT support in ${page.city}.`}
+            >
+              Share what is down, slow, broken, or ready to set up.
+            </SectionHeading>
+          </div>
+          <SupportRequestForm />
+        </section>
+      </main>
+    </PublicPageShell>
+  );
+}
+
+function ContactPage({ onNavigate }) {
+  const page = {
+    path: "/contact",
+    metaTitle: "Contact Robbins Technologies | Schedule Asheville IT Support",
+    metaDescription: "Schedule IT support, request urgent help, or contact Robbins Technologies for remote and on-site technology service in Asheville and WNC."
+  };
+  usePageMeta(page);
+
+  return (
+    <PublicPageShell onNavigate={onNavigate} compact className="rt-contact-page-site">
+      <main className="rt-detail-page">
+        <section className="rt-page-hero">
+          <div>
+            <h1>Schedule IT support or request urgent help.</h1>
+            <p>Call for urgent outages, or send a scheduling request for remote support, on-site visits, website help, cybersecurity, backup, or monthly care.</p>
+            <div className="rt-page-actions">
+              <Button className="public-primary rt-primary" component="a" href={BUSINESS_PHONE_TEL} variant="contained">
+                Call {BUSINESS_PHONE_DISPLAY} <PhoneCall size={17} />
+              </Button>
+              <Button className="public-secondary rt-secondary" component="a" href="mailto:support@robbinstechnologies.com" variant="outlined">
+                Email support <Mail size={17} />
+              </Button>
+            </div>
+          </div>
+          <aside className="rt-page-hero-card">
+            <CalendarDays size={28} />
+            <strong>Fast triage, clear next steps</strong>
+            <p>For outages, calling is fastest. For planned work, the schedule form keeps the request organized.</p>
+          </aside>
+        </section>
+        <section className="rt-schedule-section" style={{ "--schedule-bg": `url(${circuitFieldImage})` }}>
+          <SchedulingPanel />
+        </section>
+        <section className="rt-contact-section rt-detail-contact" id="contact">
+          <div>
+            <SectionHeading kicker="Support Intake" title="Send the details before the first session.">
+              Include the issue, urgency, number of users or devices, and whether remote or on-site service is preferred.
+            </SectionHeading>
+          </div>
+          <SupportRequestForm />
+        </section>
+      </main>
+    </PublicPageShell>
+  );
+}
+
+function AboutPage({ onNavigate }) {
+  const page = {
+    path: "/about",
+    metaTitle: "About Robbins Technologies | Asheville IT Company",
+    metaDescription: "Robbins Technologies is an Asheville-focused IT company providing remote support, on-site service, websites, security, automation, and monthly care."
+  };
+  usePageMeta(page);
+
+  return (
+    <PublicPageShell onNavigate={onNavigate} compact className="rt-about-page-site">
+      <main className="rt-detail-page">
+        <section className="rt-page-hero">
+          <div>
+            <h1>Local IT support built around clarity and follow-through.</h1>
+            <p>Robbins Technologies helps homes, freelancers, and small businesses in Asheville and northwestern North Carolina fix technology problems, set up better systems, and keep work moving.</p>
+            <div className="rt-page-actions">
+              <Button className="public-primary rt-primary" component="a" href="/contact/" variant="contained">
+                Work with Robbins Technologies <ArrowRight size={17} />
+              </Button>
+              <Button className="public-secondary rt-secondary" component="a" href={BUSINESS_PHONE_TEL} variant="outlined">
+                Call {BUSINESS_PHONE_DISPLAY} <PhoneCall size={17} />
+              </Button>
+            </div>
+          </div>
+          <aside className="rt-page-hero-card">
+            <BrandMark />
+            <strong>Robbins Technologies</strong>
+            <p>IT support, websites, cybersecurity, hosting, automation, and monthly care for practical local business needs.</p>
+          </aside>
+        </section>
+
+        <section className="rt-detail-grid three">
+          <article className="rt-detail-panel">
+            <Home size={22} />
+            <h2>Personal help</h2>
+            <p>Computer cleanup, account setup, printer issues, Wi-Fi help, and everyday technology support.</p>
+          </article>
+          <article className="rt-detail-panel">
+            <Building2 size={22} />
+            <h2>Business setup</h2>
+            <p>Devices, email, networks, websites, forms, backups, documentation, and better follow-up systems.</p>
+          </article>
+          <article className="rt-detail-panel">
+            <ShieldCheck size={22} />
+            <h2>Monthly care</h2>
+            <p>A recurring support lane for clients who want priority response and ongoing technology health checks.</p>
+          </article>
+        </section>
+
+        <CaseStudySection />
+        <WhyRobbinsSection />
+      </main>
+    </PublicPageShell>
+  );
+}
+
+function HomePage({ onNavigate }) {
+  usePageMeta(homePageMeta);
+
+  return (
+    <PublicPageShell onNavigate={onNavigate}>
         <main>
           <section className="public-hero rt-hero rt-hero-v2 rt-hero-graphic" style={{ "--hero-image": `url(${heroCircuitImage})` }}>
             <div className="rt-hero-inner">
@@ -1158,6 +2060,7 @@ export function PublicLanding({ onNavigate }) {
           </section>
 
           <TrustStrip />
+          <PainSection />
 
           <section className="public-band rt-section rt-path-section" id="paths">
             <SectionHeading
@@ -1189,6 +2092,7 @@ export function PublicLanding({ onNavigate }) {
             </SectionHeading>
             <ServicesTabs />
           </section>
+          <ServiceLinksSection />
 
           <section className="public-band rt-section rt-difference-section" id="managed-it">
             <div>
@@ -1284,6 +2188,9 @@ export function PublicLanding({ onNavigate }) {
             </figure>
           </section>
 
+          <CaseStudySection />
+          <WhyRobbinsSection />
+
           <section className="rt-proof-band">
             <div className="rt-proof-copy">
               <Sparkles size={24} />
@@ -1348,15 +2255,30 @@ export function PublicLanding({ onNavigate }) {
             <SupportRequestForm />
           </section>
         </main>
-
-        <PublicFooter onNavigate={onNavigate} />
-      </div>
-    </ThemeProvider>
+    </PublicPageShell>
   );
+}
+
+export function PublicLanding({ onNavigate, path = "/" }) {
+  const normalizedPath = normalizePublicPath(path);
+  const servicePage = servicePageByPath[normalizedPath];
+  const areaPage = serviceAreaPageByPath[normalizedPath];
+
+  if (servicePage) return <ServiceDetailPage page={servicePage} onNavigate={onNavigate} />;
+  if (areaPage) return <ServiceAreaDetailPage page={areaPage} onNavigate={onNavigate} />;
+  if (normalizedPath === "/contact") return <ContactPage onNavigate={onNavigate} />;
+  if (normalizedPath === "/about") return <AboutPage onNavigate={onNavigate} />;
+
+  return <HomePage onNavigate={onNavigate} />;
 }
 
 export function BusinessPlanPage({ onNavigate }) {
   const [activeBusinessTab, setActiveBusinessTab] = useState(0);
+  usePageMeta({
+    path: "/business-plan",
+    metaTitle: "Robbins Technologies Business Plan | Asheville IT Services",
+    metaDescription: "Business plan for Robbins Technologies, including IT repair, remote support, on-site service, monthly care, websites, and automation in Asheville and WNC."
+  });
 
   return (
     <ThemeProvider theme={publicTheme}>
