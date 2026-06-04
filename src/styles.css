@@ -4211,6 +4211,207 @@ html body .rt-area-detail-site .rt-contact-methods {
   }
 }
 
+/* Service detail visual cohesion correction. */
+html body .rt-public-site.rt-service-detail-site .rt-detail-page,
+html body .rt-public-site.rt-area-detail-site .rt-detail-page {
+  position: relative;
+  isolation: isolate;
+  gap: clamp(28px, 4.6vw, 58px) !important;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(20, 88, 245, 0.32), transparent 28%),
+    radial-gradient(circle at 14% 42%, rgba(15, 118, 110, 0.18), transparent 26%),
+    linear-gradient(180deg, #071226 0%, #0b1c35 17%, #bdd5dc 29%, #f0f8fa 45%, #f6fbff 66%, #eef8f4 100%) !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-detail-page::before,
+html body .rt-public-site.rt-area-detail-site .rt-detail-page::before {
+  position: absolute;
+  inset: clamp(500px, 48vw, 690px) 0 0;
+  z-index: -2;
+  background:
+    linear-gradient(128deg, rgba(20, 88, 245, 0.08) 0 17%, transparent 17% 100%),
+    linear-gradient(52deg, transparent 0 64%, rgba(242, 184, 75, 0.13) 64% 65%, transparent 65% 100%),
+    repeating-linear-gradient(90deg, rgba(7, 18, 38, 0.035) 0 1px, transparent 1px 80px);
+  content: "";
+  pointer-events: none;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-page-hero,
+html body .rt-public-site.rt-area-detail-site .rt-page-hero {
+  border-bottom: 0 !important;
+  background:
+    linear-gradient(180deg, rgba(7, 18, 38, 0.03) 0%, rgba(7, 18, 38, 0.04) 72%, rgba(220, 236, 241, 0.94) 100%),
+    linear-gradient(128deg, rgba(7, 18, 38, 0.96) 0%, rgba(10, 31, 69, 0.9) 48%, rgba(16, 78, 70, 0.82) 100%),
+    var(--service-hero-bg) center / cover no-repeat !important;
+  padding-bottom: clamp(106px, 10vw, 148px) !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-page-hero::before,
+html body .rt-public-site.rt-area-detail-site .rt-page-hero::before {
+  z-index: 0 !important;
+  background:
+    linear-gradient(118deg, transparent 0 62%, rgba(242, 184, 75, 0.2) 62% 63%, transparent 63% 100%),
+    radial-gradient(circle at 86% 78%, rgba(20, 88, 245, 0.18), transparent 24%),
+    repeating-linear-gradient(112deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 74px) !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-page-hero::after,
+html body .rt-public-site.rt-area-detail-site .rt-page-hero::after {
+  right: 0 !important;
+  bottom: -1px !important;
+  left: 0 !important;
+  z-index: 0 !important;
+  width: auto !important;
+  height: 160px !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(7, 18, 38, 0), rgba(220, 236, 241, 0.92) 68%, rgba(220, 236, 241, 1)) !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-page-hero-card,
+html body .rt-public-site.rt-area-detail-site .rt-county-map-panel,
+html body .rt-public-site.rt-service-detail-site .rt-service-start-strip a,
+html body .rt-public-site.rt-area-detail-site .rt-service-start-strip a,
+html body .rt-public-site.rt-service-detail-site .rt-detail-panel,
+html body .rt-public-site.rt-area-detail-site .rt-detail-panel,
+html body .rt-public-site.rt-service-detail-site .rt-local-proof,
+html body .rt-public-site.rt-service-detail-site .rt-contact-section,
+html body .rt-public-site.rt-area-detail-site .rt-contact-section {
+  border: 1px solid rgba(255, 255, 255, 0.68) !important;
+  background:
+    radial-gradient(circle at 88% 14%, rgba(20, 88, 245, 0.08), transparent 30%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(238, 248, 247, 0.74)) !important;
+  box-shadow:
+    0 28px 70px rgba(7, 18, 38, 0.13),
+    0 18px 0 -12px rgba(7, 18, 38, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px);
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-page-hero-card {
+  transform: perspective(1000px) rotateY(-2deg) translateZ(0);
+}
+
+html body .rt-public-site.rt-area-detail-site .rt-county-map-panel {
+  transform: perspective(1100px) rotateY(-2deg) translateZ(0);
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-service-start-strip,
+html body .rt-public-site.rt-area-detail-site .rt-service-start-strip {
+  position: relative;
+  z-index: 4;
+  margin-top: clamp(-104px, -7vw, -66px) !important;
+  perspective: 1200px;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-service-start-strip::before,
+html body .rt-public-site.rt-area-detail-site .rt-service-start-strip::before {
+  position: absolute;
+  top: -132px;
+  left: 50%;
+  z-index: -1;
+  width: 100vw;
+  height: 240px;
+  background:
+    radial-gradient(ellipse at 52% 28%, rgba(255, 255, 255, 0.44), transparent 58%),
+    linear-gradient(180deg, rgba(220, 236, 241, 0), rgba(224, 238, 242, 0.62) 42%, rgba(236, 246, 248, 0.34) 76%, rgba(246, 251, 255, 0));
+  content: "";
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-service-start-strip a,
+html body .rt-public-site.rt-area-detail-site .rt-service-start-strip a {
+  min-height: 166px !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-service-start-strip a:hover,
+html body .rt-public-site.rt-area-detail-site .rt-service-start-strip a:hover {
+  transform: translateY(-5px) rotateX(1.5deg) !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-local-proof {
+  overflow: hidden;
+  color: var(--rt-midnight) !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-local-proof::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 9px;
+  background: linear-gradient(180deg, var(--rt-blue), var(--rt-forest), var(--rt-gold));
+  content: "";
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-local-proof h2 {
+  color: var(--rt-midnight) !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-local-proof p {
+  color: #526176 !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-local-proof .rt-chip-list span {
+  border-color: rgba(20, 88, 245, 0.12) !important;
+  background: rgba(255, 255, 255, 0.74) !important;
+  color: var(--rt-forest) !important;
+  box-shadow: 0 10px 22px rgba(7, 18, 38, 0.06);
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-contact-action-panel,
+html body .rt-public-site.rt-area-detail-site .rt-contact-action-panel {
+  border-color: rgba(7, 18, 38, 0.08) !important;
+  background:
+    linear-gradient(145deg, rgba(7, 18, 38, 0.96), rgba(15, 32, 59, 0.9) 64%, rgba(18, 63, 59, 0.88)) !important;
+  color: #ffffff !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-contact-action-panel h3,
+html body .rt-public-site.rt-service-detail-site .rt-contact-action-panel p,
+html body .rt-public-site.rt-area-detail-site .rt-contact-action-panel h3,
+html body .rt-public-site.rt-area-detail-site .rt-contact-action-panel p {
+  color: #ffffff !important;
+}
+
+html body .rt-public-site.rt-service-detail-site .rt-contact-action-panel p,
+html body .rt-public-site.rt-area-detail-site .rt-contact-action-panel p {
+  color: #cfe0de !important;
+}
+
+@media (max-width: 1080px) {
+  html body .rt-public-site.rt-service-detail-site .rt-page-hero-card,
+  html body .rt-public-site.rt-area-detail-site .rt-county-map-panel {
+    transform: none;
+  }
+}
+
+@media (max-width: 680px) {
+  html body .rt-public-site.rt-service-detail-site .rt-detail-page,
+  html body .rt-public-site.rt-area-detail-site .rt-detail-page {
+    gap: 22px !important;
+    background:
+      radial-gradient(circle at 85% 12%, rgba(20, 88, 245, 0.24), transparent 25%),
+      linear-gradient(180deg, #071226 0%, #0b1c35 22%, #bdd5dc 35%, #f0f8fa 52%, #eef8f4 100%) !important;
+  }
+
+  html body .rt-public-site.rt-service-detail-site .rt-page-hero,
+  html body .rt-public-site.rt-area-detail-site .rt-page-hero {
+    padding-bottom: 92px !important;
+  }
+
+  html body .rt-public-site.rt-service-detail-site .rt-service-start-strip,
+  html body .rt-public-site.rt-area-detail-site .rt-service-start-strip {
+    margin-top: -72px !important;
+  }
+
+  html body .rt-public-site.rt-service-detail-site .rt-service-start-strip::before,
+  html body .rt-public-site.rt-area-detail-site .rt-service-start-strip::before {
+    top: -92px;
+    height: 220px;
+  }
+}
+
 /* About page layout repair */
 html body .rt-public-site.rt-about-page-site .rt-detail-page {
   display: grid;
