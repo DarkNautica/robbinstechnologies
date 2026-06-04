@@ -4211,6 +4211,352 @@ html body .rt-area-detail-site .rt-contact-methods {
   }
 }
 
+/* About page layout repair */
+html body .rt-public-site.rt-about-page-site .rt-detail-page {
+  display: grid;
+  width: 100% !important;
+  max-width: none !important;
+  gap: clamp(34px, 5vw, 72px);
+  margin: 0 !important;
+  padding: 0 0 clamp(54px, 7vw, 92px) !important;
+  overflow: hidden;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-page-hero.rt-about-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid !important;
+  width: 100% !important;
+  max-width: none !important;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.48fr) !important;
+  gap: clamp(30px, 5.2vw, 78px) !important;
+  align-items: center !important;
+  min-height: clamp(540px, 52vw, 660px) !important;
+  margin: 0 !important;
+  padding: clamp(82px, 8vw, 118px) max(22px, calc((100vw - 1180px) / 2)) clamp(78px, 8vw, 112px) !important;
+  overflow: hidden;
+  background:
+    linear-gradient(128deg, rgba(7, 18, 38, 0.96) 0%, rgba(10, 31, 69, 0.94) 45%, rgba(16, 78, 70, 0.88) 100%),
+    var(--about-hero-bg) center / cover no-repeat !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-page-hero.rt-about-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(118deg, transparent 0 61%, rgba(242, 184, 75, 0.22) 61% 62%, transparent 62% 100%),
+    repeating-linear-gradient(112deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 74px);
+  opacity: 1 !important;
+  content: "" !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-page-hero.rt-about-hero h1 {
+  width: min(860px, 100%) !important;
+  margin: 0 0 20px !important;
+  color: #ffffff !important;
+  font-size: clamp(48px, 5.8vw, 78px) !important;
+  line-height: 0.98 !important;
+  text-shadow: 0 18px 42px rgba(0, 0, 0, 0.28) !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-page-hero.rt-about-hero > div > p {
+  width: min(760px, 100%) !important;
+  margin: 0 0 28px !important;
+  color: #dce9ee !important;
+  font-size: clamp(17px, 1.45vw, 21px) !important;
+  line-height: 1.62 !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-hero-card {
+  position: relative;
+  display: grid !important;
+  gap: 16px !important;
+  align-content: center !important;
+  min-height: 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.96), rgba(239, 248, 244, 0.92)) !important;
+  padding: clamp(24px, 3vw, 34px) !important;
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.28) !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-hero-card strong {
+  color: var(--rt-midnight) !important;
+  font-size: clamp(24px, 2.8vw, 34px) !important;
+  line-height: 1.08;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-hero-card p {
+  color: #526176 !important;
+  font-size: 15px !important;
+  line-height: 1.62 !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-hero-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-hero-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 7px;
+  background: #f1f9f6;
+  color: var(--rt-forest);
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-intro-band {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  width: min(1180px, calc(100% - 36px)) !important;
+  grid-template-columns: minmax(0, 0.7fr) minmax(420px, 1fr);
+  gap: clamp(22px, 4vw, 48px);
+  align-items: center;
+  margin: clamp(-64px, -4.5vw, -38px) auto 0;
+  border: 1px solid rgba(7, 18, 38, 0.08);
+  border-radius: 8px;
+  background:
+    linear-gradient(118deg, rgba(242, 184, 75, 0.12) 0 18%, transparent 18% 100%),
+    linear-gradient(135deg, #ffffff 0%, #edf8f4 52%, #fff4dd 100%);
+  padding: clamp(24px, 4vw, 42px);
+  box-shadow: 0 30px 78px rgba(7, 18, 38, 0.13);
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-intro-band h2 {
+  margin: 0 0 14px;
+  color: var(--rt-midnight);
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-intro-band p {
+  margin: 0;
+  color: #526176;
+  font-size: 16px;
+  line-height: 1.68;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-principles {
+  display: grid;
+  gap: 12px;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-principles article {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 3px 12px;
+  align-items: start;
+  border: 1px solid rgba(7, 18, 38, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.68);
+  padding: 14px;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-principles svg {
+  grid-row: 1 / span 2;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--rt-midnight);
+  color: #ffffff;
+  padding: 11px;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-principles strong {
+  color: var(--rt-midnight);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-principles span {
+  color: #526176;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-support-grid,
+html body .rt-public-site.rt-about-page-site .rt-why-section {
+  width: min(1180px, calc(100% - 36px)) !important;
+  max-width: 1180px !important;
+  margin: 0 auto !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-support-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  padding: 0 !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-support-grid .rt-detail-panel {
+  min-height: 0 !important;
+  border-top-width: 5px !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-support-grid .rt-detail-panel:nth-child(1) {
+  border-top-color: var(--rt-blue) !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-support-grid .rt-detail-panel:nth-child(2) {
+  border-top-color: var(--rt-forest) !important;
+}
+
+html body .rt-public-site.rt-about-page-site .rt-about-support-grid .rt-detail-panel:nth-child(3) {
+  border-top-color: var(--rt-gold) !important;
+}
+
+html body .rt-public-site .rt-case-label {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--rt-gold);
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+html body .rt-public-site .rt-case-explainer {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 20px;
+  border-left: 4px solid var(--rt-gold);
+  background: rgba(255, 255, 255, 0.09);
+  padding: 14px 16px;
+}
+
+html body .rt-public-site .rt-case-explainer strong,
+html body .rt-public-site .rt-case-explainer span {
+  color: #ffffff;
+}
+
+html body .rt-public-site .rt-case-explainer span {
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.55;
+}
+
+html body .rt-public-site .rt-case-board article {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: clamp(18px, 3vw, 24px);
+}
+
+html body .rt-public-site .rt-case-board article svg {
+  color: var(--rt-gold);
+}
+
+html body .rt-public-site .rt-case-board article strong {
+  color: #ffffff;
+  font-size: 19px;
+}
+
+html body .rt-public-site .rt-case-board article p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.58;
+}
+
+@media (max-width: 1080px) {
+  html body .rt-public-site.rt-about-page-site .rt-page-hero.rt-about-hero,
+  html body .rt-public-site.rt-about-page-site .rt-about-intro-band,
+  html body .rt-public-site.rt-about-page-site .rt-about-support-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 680px) {
+  html body .rt-public-site.rt-about-page-site .rt-detail-page {
+    gap: 26px;
+    padding-bottom: 44px !important;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-page-hero.rt-about-hero {
+    min-height: 0 !important;
+    padding: 34px 18px 48px !important;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-page-hero.rt-about-hero h1 {
+    font-size: clamp(31px, 9vw, 40px) !important;
+    line-height: 1.02 !important;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-page-hero.rt-about-hero > div > p {
+    font-size: 16px !important;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-page-actions .MuiButton-root {
+    width: 100%;
+    justify-content: center;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-about-hero-card {
+    grid-template-columns: 64px minmax(0, 1fr) !important;
+    gap: 10px 12px !important;
+    padding: 18px !important;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-about-hero-card > .rt-brand-mark,
+  html body .rt-public-site.rt-about-page-site .rt-about-hero-card > img,
+  html body .rt-public-site.rt-about-page-site .rt-about-hero-card > svg {
+    grid-row: 1 / span 2;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-about-hero-card strong {
+    align-self: end;
+    font-size: 22px !important;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-about-hero-card p {
+    grid-column: 1 / -1;
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.52 !important;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-about-hero-list {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-about-hero-list span {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-about-intro-band,
+  html body .rt-public-site.rt-about-page-site .rt-about-support-grid,
+  html body .rt-public-site.rt-about-page-site .rt-why-section {
+    width: min(100% - 28px, 1180px) !important;
+  }
+
+  html body .rt-public-site.rt-about-page-site .rt-about-intro-band {
+    margin-top: -30px;
+    padding: 22px 16px;
+  }
+
+  html body .rt-public-site .rt-case-board {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* Conversion and motion refinement pass */
 .rt-public-site main > .rt-section,
 .rt-public-site main > section:not(.rt-hero):not(.rt-page-hero),

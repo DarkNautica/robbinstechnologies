@@ -623,9 +623,13 @@ const cityPageServices = [
 ];
 
 const caseStudy = {
-  title: "Colburn Outdoor lead system",
-  summary: "A local business website project built as more than a brochure: quote form, estimate calculator, dashboard direction, Cloudflare deployment, and a cleaner path toward business automation.",
-  wins: ["Lead capture", "Estimate flow", "Deployment setup", "Dashboard direction"]
+  client: "Example project",
+  title: "Website lead capture for Colburn Outdoor",
+  summary: "Colburn Outdoor needed more than a static website. The project created a clearer path for customers to request outdoor work, use an estimate tool, and send details into a follow-up process.",
+  explainerTitle: "What that means",
+  explainer: "A lead system is the part of a website that turns a visitor into a usable customer request instead of leaving the business to chase scattered calls, texts, and notes.",
+  deliverable: "Quote request form, estimate calculator, Cloudflare deployment, and dashboard direction for tracking follow-up.",
+  wins: ["Quote request form", "Estimate calculator", "Lead follow-up path", "Cloudflare deployment"]
 };
 
 const servicePageByPath = Object.fromEntries(primaryServicePages.map((page) => [page.path, page]));
@@ -1797,13 +1801,23 @@ function CaseStudySection() {
       <div className="public-band rt-section rt-case-study">
         <div className="rt-case-copy">
           <BadgeCheck size={24} />
+          <span className="rt-case-label">{caseStudy.client}</span>
           <h2>{caseStudy.title}</h2>
           <p>{caseStudy.summary}</p>
+          <div className="rt-case-explainer">
+            <strong>{caseStudy.explainerTitle}</strong>
+            <span>{caseStudy.explainer}</span>
+          </div>
           <Button className="public-secondary rt-secondary" component="a" href="/website-design-hosting-asheville/" variant="outlined">
-            Build a lead system <ArrowRight size={17} />
+            Plan a lead-ready website <ArrowRight size={17} />
           </Button>
         </div>
         <div className="rt-case-board" aria-label="Case study project wins">
+          <article>
+            <Monitor size={20} />
+            <strong>What was built</strong>
+            <p>{caseStudy.deliverable}</p>
+          </article>
           {caseStudy.wins.map((win) => (
             <span key={win}><Check size={16} />{win}</span>
           ))}
@@ -2208,7 +2222,13 @@ function AboutPage({ onNavigate }) {
   return (
     <PublicPageShell onNavigate={onNavigate} compact className="rt-about-page-site">
       <main className="rt-detail-page">
-        <section className="rt-page-hero">
+        <motion.section
+          className="rt-page-hero rt-about-hero"
+          style={{ "--about-hero-bg": `url(${heroCircuitImage})` }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.58, ease: "easeOut" }}
+        >
           <div>
             <h1>Local IT support built around clarity and follow-through.</h1>
             <p>Robbins Technologies helps homes, freelancers, and small businesses in Asheville and northwestern North Carolina fix technology problems, set up better systems, and keep work moving.</p>
@@ -2221,14 +2241,49 @@ function AboutPage({ onNavigate }) {
               </Button>
             </div>
           </div>
-          <aside className="rt-page-hero-card">
+          <aside className="rt-page-hero-card rt-about-hero-card">
             <BrandMark />
             <strong>Robbins Technologies</strong>
             <p>IT support, websites, cybersecurity, hosting, automation, and monthly care for practical local business needs.</p>
+            <div className="rt-about-hero-list">
+              <span><Laptop size={14} />Remote support starts quickly</span>
+              <span><Wrench size={14} />On-site service when needed</span>
+              <span><MapPin size={14} />Serving Asheville and WNC</span>
+            </div>
           </aside>
-        </section>
+        </motion.section>
 
-        <section className="rt-detail-grid three">
+        <motion.section
+          className="rt-about-intro-band"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.24 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        >
+          <div>
+            <h2>Built for people who need technology handled, not overexplained.</h2>
+            <p>Most clients do not need a giant IT department. They need someone who can understand the problem, fix the immediate blocker, document what changed, and recommend the next sensible step.</p>
+          </div>
+          <div className="rt-about-principles">
+            <article>
+              <PhoneCall size={18} />
+              <strong>Fast triage</strong>
+              <span>Start with the business impact and decide whether remote or on-site support is the right first move.</span>
+            </article>
+            <article>
+              <ClipboardList size={18} />
+              <strong>Clear next steps</strong>
+              <span>Leave clients with cleaner notes, better setup, and less mystery when something breaks again.</span>
+            </article>
+            <article>
+              <ShieldCheck size={18} />
+              <strong>Practical protection</strong>
+              <span>Security, backups, passwords, email records, and access cleanup are part of the support conversation.</span>
+            </article>
+          </div>
+        </motion.section>
+
+        <section className="rt-detail-grid three rt-about-support-grid">
           <article className="rt-detail-panel">
             <Home size={22} />
             <h2>Personal help</h2>
