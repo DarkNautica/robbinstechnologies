@@ -159,6 +159,44 @@ const serviceAreas = [
   "Northwestern NC"
 ];
 
+const westernNcCountyMap = {
+  viewBox: "0 0 680 430",
+  features: [
+    { id: "37011", name: "Avery", d: "M518.1 167.7 L507.0 161.2 L497.2 126.7 L508.6 121.5 L531.5 88.4 L533.4 103.3 L554.0 125.4 L569.9 134.9 L554.9 157.0 L535.4 149.0 L522.0 161.3 L523.8 164.4 L518.1 167.7 Z" },
+    { id: "37021", name: "Buncombe", d: "M478.5 248.7 L457.9 261.8 L393.8 269.1 L372.2 263.1 L357.0 270.7 L345.2 260.8 L352.3 240.4 L327.6 216.9 L343.8 215.3 L405.6 190.5 L427.9 187.4 L440.7 189.0 L456.1 211.4 L452.8 235.3 L478.5 248.7 Z", highlight: true },
+    { id: "37023", name: "Burke", d: "M551.3 238.7 L541.8 208.2 L516.9 189.7 L533.9 173.6 L526.1 157.5 L535.4 149.0 L554.9 157.0 L608.0 196.0 L648.5 198.0 L612.5 240.0 L579.2 237.7 L551.3 238.7 Z" },
+    { id: "37027", name: "Caldwell", d: "M654.8 192.0 L652.2 192.5 L650.6 197.8 L648.5 198.0 L608.0 196.0 L554.9 157.0 L569.9 134.9 L554.0 125.4 L610.2 124.2 L656.0 149.7 L654.8 192.0 Z" },
+    { id: "37039", name: "Cherokee", d: "M24.0 362.6 L30.7 312.5 L43.9 303.6 L49.1 306.1 L71.4 307.9 L85.8 298.7 L100.7 314.3 L124.7 306.2 L154.8 307.7 L147.2 327.2 L122.1 331.2 L90.8 362.8 L24.0 362.6 Z" },
+    { id: "37043", name: "Clay", d: "M201.1 361.4 L90.8 362.8 L122.1 331.2 L163.8 326.3 L201.1 361.4 Z" },
+    { id: "37075", name: "Graham", d: "M85.8 298.7 L87.4 296.5 L83.9 286.6 L86.7 285.4 L91.5 270.9 L100.1 263.1 L179.5 268.3 L154.8 307.7 L124.7 306.2 L100.7 314.3 L85.8 298.7 Z" },
+    { id: "37087", name: "Haywood", d: "M249.4 213.2 L250.0 208.1 L268.3 199.7 L281.9 196.5 L304.0 196.9 L310.7 192.5 L327.6 216.9 L352.3 240.4 L345.2 260.8 L357.0 270.7 L338.5 292.9 L319.8 298.5 L303.7 281.4 L263.8 251.5 L264.7 218.4 L249.4 213.2 Z", highlight: true },
+    { id: "37089", name: "Henderson", d: "M439.8 316.5 L433.1 315.7 L392.9 329.7 L383.4 296.0 L356.9 270.8 L372.2 263.1 L393.8 269.1 L457.9 261.8 L455.2 266.0 L457.1 275.6 L459.0 277.1 L441.1 299.7 L439.8 316.5 Z", highlight: true },
+    { id: "37099", name: "Jackson", d: "M319.8 298.5 L306.6 332.3 L291.4 348.7 L301.3 354.4 L280.2 359.9 L231.4 290.2 L228.9 261.2 L263.8 251.5 L303.7 281.4 L319.8 298.5 Z" },
+    { id: "37115", name: "Madison", d: "M324.5 160.6 L334.2 159.7 L338.9 163.1 L354.9 148.1 L379.7 135.1 L386.9 140.6 L384.4 148.9 L385.2 154.6 L396.5 158.6 L407.4 153.6 L427.9 187.4 L405.6 190.5 L343.8 215.3 L327.6 216.9 L310.7 192.5 L324.6 174.0 L321.4 165.0 L324.5 160.6 Z", highlight: true },
+    { id: "37111", name: "McDowell", d: "M551.3 238.7 L519.8 249.4 L513.6 243.6 L478.5 248.7 L452.8 235.3 L456.1 211.4 L472.6 204.6 L486.1 186.0 L523.8 164.4 L522.0 161.3 L526.1 157.5 L533.9 173.6 L516.9 189.7 L541.8 208.2 L551.3 238.7 Z" },
+    { id: "37121", name: "Mitchell", d: "M426.2 133.6 L434.9 126.7 L464.0 119.6 L467.3 115.9 L483.0 117.4 L486.6 126.5 L497.2 126.7 L507.0 161.2 L518.1 167.7 L486.1 186.0 L472.1 145.6 L442.8 142.6 L426.2 133.6 Z" },
+    { id: "37149", name: "Polk", d: "M520.7 320.6 L439.8 316.5 L441.1 299.7 L459.0 277.1 L489.9 278.3 L520.8 305.7 L520.7 320.6 Z" },
+    { id: "37161", name: "Rutherford", d: "M540.7 321.2 L520.7 320.6 L520.8 305.7 L489.9 278.3 L459.0 277.1 L457.1 275.6 L455.2 266.0 L457.9 261.8 L478.5 248.7 L513.6 243.6 L519.8 249.4 L551.3 238.7 L579.2 237.7 L576.9 284.7 L563.2 322.1 L540.7 321.2 Z" },
+    { id: "37175", name: "Transylvania", d: "M352.8 345.7 L349.1 346.0 L349.3 342.3 L301.3 354.4 L291.4 348.7 L306.6 332.3 L319.8 298.5 L338.5 292.9 L356.9 270.8 L383.4 296.0 L392.9 329.7 L369.3 334.4 L352.8 345.7 Z" },
+    { id: "37189", name: "Watauga", d: "M572.1 77.1 L573.1 67.2 L605.8 91.5 L624.6 98.3 L629.1 106.8 L610.2 124.2 L554.0 125.4 L533.4 103.3 L531.5 88.4 L544.8 77.8 L557.8 72.9 L558.6 75.4 L563.8 77.5 L571.0 76.9 Z", highlight: true },
+    { id: "37199", name: "Yancey", d: "M416.5 147.4 L426.2 133.6 L442.8 142.6 L472.1 145.6 L486.1 186.0 L472.6 204.6 L456.1 211.4 L440.7 189.0 L427.9 187.4 L407.4 153.6 L416.5 147.4 Z" }
+  ],
+  towns: [
+    { name: "Asheville", x: 397.8, y: 234.5, type: "hub" },
+    { name: "Hendersonville", x: 416.9, y: 292.8, type: "city" },
+    { name: "Boone", x: 582.9, y: 103.2, type: "city" },
+    { name: "Waynesville", x: 305.5, y: 256.9, type: "city" },
+    { name: "Black Mountain", x: 446.4, y: 229.7, type: "city" },
+    { name: "Weaverville", x: 395.8, y: 212.9, type: "city" }
+  ]
+};
+
+const urgentSupportSteps = [
+  { label: "Call answered", detail: "Business impact and urgency sorted first", icon: PhoneCall },
+  { label: "Remote triage", detail: "Start safely online when possible", icon: Laptop },
+  { label: "On-site path", detail: "Schedule hands-on work when needed", icon: Wrench }
+];
+
 const proofPoints = [
   { label: "Remote-first triage", icon: Laptop },
   { label: "On-site when needed", icon: Wrench },
@@ -1528,20 +1566,119 @@ function TrustStrip() {
   );
 }
 
-function ServiceAreaMap() {
+function UrgentSupportBand() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveStep((current) => (current + 1) % urgentSupportSteps.length);
+    }, 2600);
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
-    <div className="rt-map-panel" aria-label="Asheville and Western North Carolina service coverage">
-      <div className="rt-map-rings" aria-hidden="true">
-        <span className="ring ring-one" />
-        <span className="ring ring-two" />
-        <span className="ring ring-three" />
+    <section className="rt-emergency-band rt-emergency-hero-band" id="urgent-help" aria-label="Urgent IT help">
+      <div className="rt-emergency-copy">
+        <PhoneCall size={24} />
+        <div>
+          <h2>Need urgent IT help?</h2>
+          <p>Email down, network offline, computer issue, or security concern? Call Robbins Technologies for fast triage before the day gets away from you.</p>
+        </div>
       </div>
-      <div className="rt-map-pin primary"><MapPin size={16} /> Asheville hub</div>
-      <div className="rt-map-pin north">Weaverville</div>
-      <div className="rt-map-pin east">Black Mountain</div>
-      <div className="rt-map-pin south">Hendersonville</div>
-      <div className="rt-map-pin west">Waynesville</div>
+      <div className="rt-urgent-steps" aria-label="Urgent support flow">
+        {urgentSupportSteps.map((step, index) => {
+          const Icon = step.icon;
+          return (
+            <span className={index === activeStep ? "active" : ""} key={step.label}>
+              <Icon size={16} />
+              <strong>{step.label}</strong>
+              <small>{step.detail}</small>
+            </span>
+          );
+        })}
+      </div>
+      <div className="rt-emergency-actions">
+        <Button className="rt-emergency-button" component="a" href={BUSINESS_PHONE_TEL}>
+          Call {BUSINESS_PHONE_DISPLAY} <PhoneCall size={17} />
+        </Button>
+        <Button className="rt-emergency-secondary" component="a" href="/contact/">
+          Schedule if not urgent <CalendarDays size={17} />
+        </Button>
+      </div>
+    </section>
+  );
+}
+
+function ServiceAreaMap() {
+  const [activeTown, setActiveTown] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveTown((current) => (current + 1) % westernNcCountyMap.towns.length);
+    }, 2200);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="rt-map-panel rt-county-map-panel" aria-label="Western North Carolina county service coverage">
+      <div className="rt-map-header">
+        <span>Western North Carolina coverage</span>
+        <strong>County service area</strong>
+      </div>
+      <svg className="rt-county-map" viewBox={westernNcCountyMap.viewBox} role="img" aria-label="County outlines for western North Carolina service area">
+        <g className="rt-county-layer">
+          {westernNcCountyMap.features.map((county) => (
+            <path
+              key={county.id}
+              className={`rt-map-county ${county.highlight ? "highlight" : ""}`}
+              d={county.d}
+            >
+              <title>{county.name} County</title>
+            </path>
+          ))}
+        </g>
+        <g className="rt-town-layer">
+          {westernNcCountyMap.towns.map((town, index) => (
+            <g
+              className={`rt-map-town ${town.type === "hub" ? "hub" : ""} ${index === activeTown ? "is-active" : ""}`}
+              key={town.name}
+              transform={`translate(${town.x} ${town.y})`}
+            >
+              <circle className="rt-map-town-pulse" r="16" />
+              <circle className="rt-map-town-dot" r={town.type === "hub" ? "7" : "5"} />
+              <text x="10" y={town.type === "hub" ? "-8" : "-7"}>{town.name}</text>
+            </g>
+          ))}
+        </g>
+      </svg>
+      <div className="rt-map-legend">
+        <span><i className="served" /> Primary support corridor</span>
+        <span><i /> Extended WNC coverage</span>
+      </div>
     </div>
+  );
+}
+
+function ContactActionPanel({ onNavigate, title = "One clear way to start.", body = "Use the scheduler for planned work. If something is down right now, call and start with triage." }) {
+  return (
+    <aside className="rt-contact-action-panel">
+      <div>
+        <Sparkles size={22} />
+        <h3>{title}</h3>
+        <p>{body}</p>
+      </div>
+      <div className="rt-contact-action-grid">
+        <Button className="public-primary rt-primary" component="a" href="/contact/">
+          Schedule online <CalendarDays size={17} />
+        </Button>
+        <Button className="public-secondary rt-secondary" component="a" href={BUSINESS_PHONE_TEL}>
+          Call {BUSINESS_PHONE_DISPLAY} <PhoneCall size={17} />
+        </Button>
+        <Button className="public-secondary rt-secondary" type="button" onClick={() => onNavigate("/login")}>
+          Client dashboard <Lock size={17} />
+        </Button>
+      </div>
+    </aside>
   );
 }
 
@@ -1614,7 +1751,14 @@ function PainSection() {
 
 function ServiceLinksSection() {
   return (
-    <section className="public-band rt-section rt-seo-links-section">
+    <motion.section
+      className="public-band rt-section rt-seo-links-section"
+      variants={reveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.16 }}
+      transition={{ duration: 0.42 }}
+    >
       <SectionHeading
         kicker="Service Pages"
         title="Dedicated help for the exact problem you searched for."
@@ -1622,19 +1766,28 @@ function ServiceLinksSection() {
         Each service page is written around a real local need, so clients can move from search to the right next step faster.
       </SectionHeading>
       <div className="rt-seo-link-grid">
-        {primaryServicePages.map((page) => {
+        {primaryServicePages.map((page, index) => {
           const Icon = page.icon;
           return (
-            <a key={page.path} className="rt-seo-link-card" href={publicHref(page.path)}>
+            <motion.a
+              key={page.path}
+              className="rt-seo-link-card"
+              href={publicHref(page.path)}
+              variants={reveal}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: index * 0.03, duration: 0.35 }}
+            >
               <span><Icon size={20} /></span>
               <strong>{page.shortTitle}</strong>
               <p>{page.metaDescription}</p>
               <small>Open page <ArrowRight size={14} /></small>
-            </a>
+            </motion.a>
           );
         })}
       </div>
-    </section>
+    </motion.section>
   );
 }
 
@@ -1934,11 +2087,19 @@ function ContactPage({ onNavigate }) {
         </section>
         <section className="rt-contact-section rt-detail-contact" id="contact">
           <div>
-            <SectionHeading kicker="Support Intake" title="Send the details before the first session.">
-              Include the issue, urgency, number of users or devices, and whether remote or on-site service is preferred.
+            <SectionHeading kicker="Support Intake" title="Schedule once, then we take it from there.">
+              The scheduler above is the primary intake. Call for outages, or use email if you need to send screenshots or notes.
             </SectionHeading>
+            <div className="rt-contact-methods">
+              <Button component="a" href={BUSINESS_PHONE_TEL}><PhoneCall size={16} /> {BUSINESS_PHONE_DISPLAY}</Button>
+              <Button component="a" href="mailto:support@robbinstechnologies.com"><Mail size={16} /> support@robbinstechnologies.com</Button>
+            </div>
           </div>
-          <SupportRequestForm />
+          <ContactActionPanel
+            onNavigate={onNavigate}
+            title="Use one clean intake path."
+            body="Planned work starts through the scheduler. Active outages should start with a call so the impact can be triaged immediately."
+          />
         </section>
       </main>
     </PublicPageShell>
@@ -2059,6 +2220,7 @@ function HomePage({ onNavigate }) {
             </div>
           </section>
 
+          <UrgentSupportBand />
           <TrustStrip />
           <PainSection />
 
@@ -2072,18 +2234,7 @@ function HomePage({ onNavigate }) {
             <ServicePathCards />
           </section>
 
-          <section className="rt-emergency-band" id="services">
-            <div>
-              <PhoneCall size={24} />
-              <h2>Need urgent IT help?</h2>
-              <p>Email down? Network offline? Computer issue? Security concern? Call Robbins Technologies for fast triage.</p>
-            </div>
-            <Button className="rt-emergency-button" component="a" href={BUSINESS_PHONE_TEL}>
-              Call for Emergency Help <PhoneCall size={17} />
-            </Button>
-          </section>
-
-          <section className="public-band rt-section rt-services-section">
+          <section className="public-band rt-section rt-services-section" id="services">
             <SectionHeading
               kicker="What We Fix"
               title="Clear categories, practical fixes, and no mystery tech talk."
@@ -2241,9 +2392,9 @@ function HomePage({ onNavigate }) {
             <div>
               <SectionHeading
                 kicker="Request Support"
-                title="Tell Robbins Technologies what needs fixed, set up, or kept healthy."
+                title="Ready when you are."
               >
-                A clear request helps triage the job, prepare for the first session, and decide whether remote or on-site support is the right start.
+                Use the scheduler above for planned work, or call when the issue is actively blocking the day. No second form, no duplicate intake.
               </SectionHeading>
               <div className="rt-contact-methods">
                 <Button component="a" href={BUSINESS_PHONE_TEL}><PhoneCall size={16} /> {BUSINESS_PHONE_DISPLAY}</Button>
@@ -2252,7 +2403,7 @@ function HomePage({ onNavigate }) {
               </div>
               <FaqSection />
             </div>
-            <SupportRequestForm />
+            <ContactActionPanel onNavigate={onNavigate} />
           </section>
         </main>
     </PublicPageShell>
