@@ -1892,6 +1892,60 @@ function PageFaqs({ items = [] }) {
   );
 }
 
+function ServiceStartStrip({ page, city }) {
+  const isCityPage = Boolean(city);
+  const items = [
+    {
+      icon: PhoneCall,
+      title: "Need help now?",
+      body: `Call ${BUSINESS_PHONE_DISPLAY} for outage, account, device, network, or security triage.`,
+      href: BUSINESS_PHONE_TEL,
+      action: "Call now"
+    },
+    {
+      icon: Laptop,
+      title: "Start remote",
+      body: isCityPage
+        ? `Most ${city} support can begin online before an on-site visit is scheduled.`
+        : `${page.shortTitle} help often starts with a remote review, then moves on-site when needed.`,
+      href: "/contact/",
+      action: "Schedule"
+    },
+    {
+      icon: MapPin,
+      title: isCityPage ? `${city} coverage` : "Local WNC service",
+      body: isCityPage
+        ? "Remote-first support with on-site service when the fix needs hands-on access."
+        : "Serving Asheville, Buncombe County, Hendersonville, Boone, and northwestern North Carolina.",
+      href: "/service-area/",
+      action: "Service area"
+    }
+  ];
+
+  return (
+    <motion.section
+      className="rt-service-start-strip"
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.28 }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+      aria-label="Service start options"
+    >
+      {items.map((item) => {
+        const Icon = item.icon;
+        return (
+          <a key={item.title} href={item.href}>
+            <span><Icon size={19} /></span>
+            <strong>{item.title}</strong>
+            <p>{item.body}</p>
+            <em>{item.action}<ArrowRight size={15} /></em>
+          </a>
+        );
+      })}
+    </motion.section>
+  );
+}
+
 function ServiceDetailPage({ page, onNavigate }) {
   usePageMeta(page);
   const Icon = page.icon;
@@ -1899,7 +1953,13 @@ function ServiceDetailPage({ page, onNavigate }) {
   return (
     <PublicPageShell onNavigate={onNavigate} compact className="rt-service-detail-site">
       <main className="rt-detail-page">
-        <section className="rt-page-hero">
+        <motion.section
+          className="rt-page-hero rt-service-page-hero"
+          style={{ "--service-hero-bg": `url(${heroCircuitImage})` }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.58, ease: "easeOut" }}
+        >
           <div>
             <h1>{page.title}</h1>
             <p>{page.intro}</p>
@@ -1916,10 +1976,21 @@ function ServiceDetailPage({ page, onNavigate }) {
             <ServiceCardIcon service={page} />
             <strong>{page.serviceType}</strong>
             <p>{page.problem}</p>
+            <div className="rt-service-hero-proof">
+              {page.outcomes.map((item) => <span key={item}><Check size={14} />{item}</span>)}
+            </div>
           </aside>
-        </section>
+        </motion.section>
 
-        <section className="rt-detail-grid">
+        <ServiceStartStrip page={page} />
+
+        <motion.section
+          className="rt-detail-grid"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        >
           <article className="rt-detail-panel">
             <Icon size={22} />
             <h2>What gets handled</h2>
@@ -1941,7 +2012,7 @@ function ServiceDetailPage({ page, onNavigate }) {
               {page.outcomes.map((item) => <li key={item}>{item}</li>)}
             </ul>
           </article>
-        </section>
+        </motion.section>
 
         <section className="rt-local-proof">
           <div>
@@ -1970,14 +2041,18 @@ function ServiceDetailPage({ page, onNavigate }) {
               kicker="Start Here"
               title={`Request ${page.shortTitle.toLowerCase()} help.`}
             >
-              Send the details, or call now if the issue is urgent.
+              Use the scheduling page for planned work, or call now if the issue is urgent.
             </SectionHeading>
             <div className="rt-contact-methods">
               <Button component="a" href={BUSINESS_PHONE_TEL}><PhoneCall size={16} /> {BUSINESS_PHONE_DISPLAY}</Button>
-              <Button component="a" href="mailto:support@robbinstechnologies.com"><Mail size={16} /> support@robbinstechnologies.com</Button>
+              <Button component="a" href="/contact/"><CalendarDays size={16} /> Schedule online</Button>
             </div>
           </div>
-          <SupportRequestForm />
+          <ContactActionPanel
+            onNavigate={onNavigate}
+            title={`Start ${page.shortTitle.toLowerCase()} support.`}
+            body="Use one clean scheduling path for planned work. Active outages should start with a call so the impact can be triaged immediately."
+          />
         </section>
       </main>
     </PublicPageShell>
@@ -1990,7 +2065,13 @@ function ServiceAreaDetailPage({ page, onNavigate }) {
   return (
     <PublicPageShell onNavigate={onNavigate} compact className="rt-area-detail-site">
       <main className="rt-detail-page">
-        <section className="rt-page-hero rt-area-page-hero">
+        <motion.section
+          className="rt-page-hero rt-area-page-hero"
+          style={{ "--service-hero-bg": `url(${heroCircuitImage})` }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.58, ease: "easeOut" }}
+        >
           <div>
             <h1>{page.title}</h1>
             <p>{page.intro}</p>
@@ -2004,7 +2085,9 @@ function ServiceAreaDetailPage({ page, onNavigate }) {
             </div>
           </div>
           <ServiceAreaMap />
-        </section>
+        </motion.section>
+
+        <ServiceStartStrip city={page.city} />
 
         <section className="rt-detail-grid two">
           <article className="rt-detail-panel">
@@ -2042,10 +2125,18 @@ function ServiceAreaDetailPage({ page, onNavigate }) {
               kicker="Local Request"
               title={`Request IT support in ${page.city}.`}
             >
-              Share what is down, slow, broken, or ready to set up.
+              Use the scheduling page for planned work, or call now if something is down.
             </SectionHeading>
+            <div className="rt-contact-methods">
+              <Button component="a" href={BUSINESS_PHONE_TEL}><PhoneCall size={16} /> {BUSINESS_PHONE_DISPLAY}</Button>
+              <Button component="a" href="/contact/"><CalendarDays size={16} /> Schedule online</Button>
+            </div>
           </div>
-          <SupportRequestForm />
+          <ContactActionPanel
+            onNavigate={onNavigate}
+            title={`Start ${page.city} IT support.`}
+            body="Remote support starts quickly, and an on-site visit can be scheduled when the work needs local hands-on service."
+          />
         </section>
       </main>
     </PublicPageShell>
